@@ -71,6 +71,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     #Adicionar whitenoise na lista de aplicativos instalados
     "whitenoise.runserver_nostatic",
+    "app_tela_inicial",
+    "app_criar_perfil_ong",
+    "app_criar_perfil_doador",
 ]
 
 MIDDLEWARE = [

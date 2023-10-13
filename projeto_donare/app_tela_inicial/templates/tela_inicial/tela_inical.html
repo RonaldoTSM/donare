@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Perfil</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;     
+        }
+        .image-placeholder {
+            width: 550px;
+            height: 400px;
+            background-color: #d4d4d4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 20%;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        button {
+            width: 300px;
+            margin-bottom: 10px;
+            padding: 15px;
+            border: none;
+            background-color: #0056b3;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.1em;
+            border-radius: 5px;
+        }
+        .login-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .login-button {
+            width: 100px;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .buttons {
+            margin-right: 27%;
+        }
+        .title {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-placeholder">
+            <span>🖼️</span>
+        </div>
+        <div class="buttons">
+            <div class="title">Cadastre-se no Donare</div>
+            <button>Doador</button>
+            <button>ONG</button>
+            <div class="login-section">
+                <span>Já possui cadastro?</span>
+                <button class="login-button">Login</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from app_tela_inicial import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('tela_inicial/', views.tela_inicial, name='tela_inicial'),
 ]

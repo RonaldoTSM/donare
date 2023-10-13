@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Doador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-top: 13px;
+        }
+        .form-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px 40px;
+            padding: 30px;
+            width: 600px;
+            margin: auto;
+        }
+        input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="date"], textarea, button {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+        ::placeholder {
+            font-family: Arial, sans-serif;
+        }
+        textarea {
+            grid-column: span 2;
+            resize: none;
+            overflow-y: auto;
+            height: 100px;
+        }
+        .profile-pic {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .profile-pic svg {
+            width: 120px;
+            height: 120px;
+        }
+        .profile-pic input[type="file"] {
+            display: none;
+        }
+        .profile-pic label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .profile-pic:hover label {
+            opacity: 1;
+        }
+        button {
+            grid-column: span 2;
+            width: 105%;
+            background-color: #0056b3;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #003f8a;
+        }
+        .terms {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+        }
+        .terms input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .show-password {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }        
+    </style>
+</head>
+<body>
+    <h1>Cadastro de Doador</h1>
+    <div class="profile-pic">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z"/></svg>
+        <input type="file" id="profilePicInput" accept="image/*">
+        <label for="profilePicInput">+</label>
+    </div>    
+    <form onsubmit="event.preventDefault(); verificarCamposObrigatorios();">
+        <div class="form-section">
+            <input type="text" placeholder="* Nome de Usuário" required>
+            <input type="text" placeholder="* Nome Completo" required>
+            <input type="text" placeholder="* CPF" onchange="verificaCPF()" oninput="formatarCPF(this)" maxlength="14" required>
+            <input type="date" placeholder="* Data de Nascimento" required>
+            <textarea placeholder="Descrição" rows="4"></textarea>
+            <input type="text" placeholder="* CEP" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
+            <input type="text" placeholder="Rua">
+            <input type="text" placeholder="Número">
+            <input type="text" placeholder="Complemento">
+            <input type="text" placeholder="Bairro">
+            <input type="text" placeholder="Cidade">
+            <input type="text" placeholder="Estado">
+            <input type="tel" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
+            <input type="email" placeholder="* Email" required>
+            <div style="position: relative;">
+                <input type="password" placeholder="* Senha" id="passwordInput" required>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABUElEQVR4nO2UvUpDQRCFv8LO4F+rF8GAF19CxFdRqzyBRfRZLBMCaSRCQAjGJoUpLNLEYJFWxSSoZWThXFkna3Jvc7HIgYFlzpnZn5kdWOK/YwsoAdfAEPiSDeUrSZMZK8A5MAGmC2wirYtJhR2g4yVoAidADKzKYvmanq6j2LnYBQYKeAIOUxzIafqKGShHEAWgJ+EdsOFxEVADxrK6bpFgHWgptqdcM7iSoGsEEfAaePs3cf4Bu+Jcrl84EvEJFA1XE+e6Zlvv3JCvarRF5Zgq5w/acl4EbjYW5xcwkm8U0JfFtUMblDNu8B7QX4Y2SJ7oA9gzAXVxDW3ikt/IVzHafX3EmSfyi/ygXk8Qq6C2yC/mVmvA419Ftm3aUusliFTQkaxikm8C94va1H60fsqPdgw8p/lo80bFKXCgkxW0PgNus46KXIZdLuN6ifzwDezZi1/ebTEHAAAAAElFTkSuQmCC" class="show-password" id="togglePassword" onclick="togglePassword()">
+            </div>
+            <div class="terms">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">Aceito os Termos e Condições</label>
+            </div>
+            <button type="submit">Confirmar</button>
+        </div>
+    </form>
+    </div>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+        function fetchAddress() {
+            const cepField = document.querySelector('input[placeholder="CEP"]');
+            let cep = cepField.value;
+            cep = cep.replace(/\D/g, ""); // Remove qualquer coisa que não seja dígito, incluindo o hífen
+
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('input[placeholder="Rua"]').value = data.logradouro;
+                    document.querySelector('input[placeholder="Bairro"]').value = data.bairro;
+                    document.querySelector('input[placeholder="Cidade"]').value = data.localidade;
+                    document.querySelector('input[placeholder="Estado"]').value = data.uf;
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar CEP:', error);
+                });
+        }
+        function formatarCPF(campo) {
+            let cpf = campo.value;
+            cpf = cpf.replace(/\D/g, ""); // Remove qualquer coisa que não seja dígito
+            cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2"); // Coloca um ponto entre o terceiro e o quarto dígitos
+            cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2"); // Coloca um ponto entre o terceiro e o quarto dígitos novamente (para o segundo bloco de números)
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); // Coloca um traço entre o terceiro e o quarto dígitos do último bloco
+            campo.value = cpf;
+        }
+        function verificaCPF() {
+            const cpfField = document.querySelector('input[placeholder="CPF"]');
+            const cpf = cpfField.value;
+            if (!validaCPF(cpf)) {
+                alert("CPF inválido!");
+                cpfField.focus();
+            }
+        }
+        function validaCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, ''); // Limpa o CPF removendo pontos e traço
+
+            if (cpf.length !== 11) return false;
+
+            // Verifica se o CPF possui dígitos repetidos
+            if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+            // Calcula os dígitos verificadores
+            for (let t = 9; t < 11; t++) {
+                let d = 0;
+                for (let c = 0; c < t; c++) {
+                    d += cpf[c] * ((t + 1) - c);
+                }
+                d = 11 - (d % 11);
+                if (d > 9) d = 0;
+                if (cpf[t] != d) return false;
+            }
+            return true;
+        }
+        function formatarTelefone(campo) {
+            let telefone = campo.value;
+            telefone = telefone.replace(/\D/g, ""); // Remove qualquer coisa que não seja dígito
+            telefone = telefone.replace(/^(\d{2})(\d)/g, "($1) $2"); // Coloca parênteses em volta dos dois primeiros dígitos
+
+            if (telefone.length < 11) {
+                telefone = telefone.replace(/(\d{4})(\d)/, "$1-$2"); // Formato para telefones fixos: (XX) XXXX-XXXX
+            } else {
+                telefone = telefone.replace(/(\d{5})(\d)/, "$1-$2"); // Formato para celulares: (XX) XXXXX-XXXX
+            }
+
+            campo.value = telefone;
+        }
+        function formatarCEP(campo) {
+            let cep = campo.value;
+            cep = cep.replace(/\D/g, ""); // Remove qualquer coisa que não seja dígito
+            cep = cep.replace(/^(\d{5})(\d)/, "$1-$2"); // Coloca um traço após o quinto dígito
+            campo.value = cep;
+        }
+        function verificarCamposObrigatorios() {
+            // Aqui você pode adicionar verificações adicionais se necessário
+            // Por exemplo, verificar se um campo específico está preenchido, etc.
+        }
+
+    </script>
+</body>
+</html>
