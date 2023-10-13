@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Interesses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .interests-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .interest-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .interest {
+            padding: 10px 20px;
+            border: 1px solid #0056b3;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .interest.selected {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .buttons {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-confirm {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background-color: #003f8a;
+        }
+
+        .btn-skip {
+            background-color: #ccc;
+            color: black;
+        }
+
+        .btn-skip:hover {
+            background-color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escolha seus Interesses</h1>
+    <div class="interests-section">
+        <div class="interest-row">
+            <div class="interest" onclick="toggleInterest(this)">Esportes</div>
+            <div class="interest" onclick="toggleInterest(this)">Música</div>
+            <div class="interest" onclick="toggleInterest(this)">Tecnologia</div>
+        </div>
+        <div class="interest-row">
+            <div class="interest" onclick="toggleInterest(this)">Arte</div>
+            <div class="interest" onclick="toggleInterest(this)">Viagens</div>
+            <div class="interest" onclick="toggleInterest(this)">Culinária</div>
+        </div>
+        <div class="interest-row">
+            <div class="interest" onclick="toggleInterest(this)">Idosos</div>
+            <div class="interest" onclick="toggleInterest(this)">PSR</div>
+            <div class="interest" onclick="toggleInterest(this)">Crianças</div>
+            <div class="interest" onclick="toggleInterest(this)">Animais</div>
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="btn btn-skip" onclick="skip()">Pular</button>
+        <button class="btn btn-confirm" onclick="confirmInterests()">Concluir</button>
+    </div>
+
+    <script>
+        function toggleInterest(element) {
+            element.classList.toggle('selected');
+        }
+
+        function skip() {
+            // Implemente a ação de pular, se necessário
+            alert("Pular");
+        }
+
+        function confirmInterests() {
+            const selectedInterests = document.querySelectorAll('.interest.selected');
+            if (selectedInterests.length === 0) {
+                alert("Selecione pelo menos um interesse antes de concluir.");
+                return;
+            }
+            // Implemente a ação de confirmação, se necessário
+            alert("Interesses confirmados!");
+        }
+    </script>
+</body>
+</html>

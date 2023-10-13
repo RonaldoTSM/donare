@@ -126,12 +126,12 @@
             <input type="date" placeholder="* Data de Nascimento" required>
             <textarea placeholder="Descrição" rows="4"></textarea>
             <input type="text" placeholder="* CEP" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
-            <input type="text" placeholder="Rua">
+            <input type="text" placeholder="Rua" required>
             <input type="text" placeholder="Número">
             <input type="text" placeholder="Complemento">
-            <input type="text" placeholder="Bairro">
-            <input type="text" placeholder="Cidade">
-            <input type="text" placeholder="Estado">
+            <input type="text" placeholder="Bairro" required>
+            <input type="text" placeholder="Cidade" required>
+            <input type="text" placeholder="Estado" required>
             <input type="tel" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
             <input type="email" placeholder="* Email" required>
             <div style="position: relative;">
@@ -156,13 +156,23 @@
             }
         }
         function fetchAddress() {
-            const cepField = document.querySelector('input[placeholder="CEP"]');
+            const cepField = document.querySelector('input[placeholder="* CEP"]');
             let cep = cepField.value;
-            cep = cep.replace(/\D/g, ""); // Remove qualquer coisa que não seja dígito, incluindo o hífen
+            cep = cep.replace(/\D/g, ""); // Remove qualquer coisa que não seja dígito
+
+            console.log("Buscando endereço para o CEP:", cep); // Log para verificar se a função está sendo chamada
 
             fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Erro ao buscar CEP. Status: " + response.status);
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    if (data.erro) {
+                        throw new Error("CEP não encontrado.");
+                    }
                     document.querySelector('input[placeholder="Rua"]').value = data.logradouro;
                     document.querySelector('input[placeholder="Bairro"]').value = data.bairro;
                     document.querySelector('input[placeholder="Cidade"]').value = data.localidade;
@@ -170,6 +180,7 @@
                 })
                 .catch(error => {
                     console.error('Erro ao buscar CEP:', error);
+                    alert(error.message);
                 });
         }
         function formatarCPF(campo) {
