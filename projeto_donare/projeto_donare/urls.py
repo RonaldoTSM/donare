@@ -17,8 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app_tela_inicial import views
+from app_criar_perfil_doador import views as criar_doador_views
+from app_criar_perfil_ong import views as criar_ong_views
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('tela_inicial/', views.tela_inicial, name='tela_inicial'),
+    path('', views.tela_inicial, name='tela_inicial'),
+    path('cadastro_doador/perfil_doador/interesses/', criar_doador_views.criar_perfil_doador_interesses, name='criar_perfil_doador_interesses'),
+    path('cadastro_doador/perfil_doador', criar_doador_views.criar_perfil_doador, name='criar_perfil_doador'),
+    path('cadastro_ong/perfil_ong', criar_ong_views.criar_perfil_ong, name='perfil_ong'),
+    path('cadastro_ong/dados_bancarios', criar_ong_views.dados_bancarios_ong, name='dados_bancarios_ong'),
 ]

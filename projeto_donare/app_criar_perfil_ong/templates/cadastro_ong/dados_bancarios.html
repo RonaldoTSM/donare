@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações para Doações</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow-y: hidden; /* Desativa a rolagem vertical */
+            overflow-x: hidden; /* Desativa a rolagem horizontal */
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-top: 100px; /* Reduzida a margem superior */
+            margin-bottom: 10px; /* Adicionada uma margem inferior para separar do formulário */
+        }
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px 40px;
+            padding: 40px;
+            width: 650px;
+            margin: 80px auto;
+        }
+        input[type="text"], input[type="number"], input[type="email"], textarea, button {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            font-family: Arial, sans-serif;
+        }
+        ::placeholder {
+            font-family: Arial, sans-serif;
+        }
+        textarea {
+            grid-column: span 2;
+            resize: none; /* Desativa o redimensionamento */
+            height: 150px; /* Tamanho fixo */
+            overflow-y: auto; /* Barra de rolagem vertical quando necessário */
+        }
+        button {
+            grid-column: span 2;
+            background-color: #0056b3;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+            margin-top: 20px;
+            width: 105%;
+        }
+        button:hover {
+            background-color: #003f8a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Informações para Recebimento de Doações</h1>
+    <form onsubmit="event.preventDefault();">
+        <input type="text" placeholder="* Nome do Titular da Conta" required>            
+        <input type="text" placeholder="* Conta Bancária" required>
+        <input type="text" placeholder="* Agência" required>
+        <input type="text" placeholder="* Banco" required>
+        <input type="text" placeholder="* Tipo de Conta (Corrente/Poupança)" required>
+        <input type="text" placeholder="* Cidade da Agência" required>
+        <input type="text" placeholder="* Estado da Agência" required>   
+        <input type="text" placeholder="Chave PIX" required>         
+        <textarea placeholder="Observações adicionais"></textarea>
+        <button type="submit">Enviar Informações</button>
+    </form>
+</body>
+</html>
