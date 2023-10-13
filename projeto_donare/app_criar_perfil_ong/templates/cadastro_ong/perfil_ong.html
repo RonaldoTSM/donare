@@ -142,7 +142,7 @@
                 <input type="checkbox" id="terms" required>
                 <label for="terms">Aceito os Termos e Condições</label>
             </div>
-            <button type="submit">Confirmar</button>
+            <button type="submit"id="dadosBancariosButton">Confirmar</button>
         </div>
     </form>
     </div>
@@ -216,6 +216,9 @@
             // Por exemplo, verificar se um campo específico está preenchido, etc.
         }
 
+        document.getElementById("dadosBancariosButton").addEventListener("click", function() {
+            window.location.href = "/cadastro_ong/dados_bancarios";
+        });
     </script>
 </body>
 </html>

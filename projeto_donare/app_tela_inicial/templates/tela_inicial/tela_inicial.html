@@ -79,13 +79,21 @@
         </div>
         <div class="buttons">
             <div class="title">Cadastre-se no Donare</div>
-            <button>Doador</button>
-            <button>ONG</button>
+            <button id = "doadorButton">Doador</button>
+            <button id = "ongButton">ONG</button>
             <div class="login-section">
                 <span>Já possui cadastro?</span>
                 <button class="login-button">Login</button>
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById("doadorButton").addEventListener("click", function() {
+            window.location.href = "/cadastro_doador/perfil_doador";
+        });
+        document.getElementById("ongButton").addEventListener("click", function() {
+            window.location.href = "/cadastro_ong/perfil_ong";
+        });
+    </script>
 </body>
 </html>

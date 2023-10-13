@@ -142,7 +142,7 @@
                 <input type="checkbox" id="terms" required>
                 <label for="terms">Aceito os Termos e Condições</label>
             </div>
-            <button type="submit">Confirmar</button>
+            <button type="submit", id ="interessesButton">Confirmar</button>
         </div>
     </form>
     </div>
@@ -243,6 +243,10 @@
             // Por exemplo, verificar se um campo específico está preenchido, etc.
         }
 
+
+        document.getElementById("interessesButton").addEventListener("click", function() {
+            window.location.href = "/cadastro_doador/perfil_doador/interesses";
+        });
     </script>
 </body>
 </html>
