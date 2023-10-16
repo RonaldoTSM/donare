@@ -9,7 +9,6 @@ O Donare
 - [@Lucas Rosati](https://www.github.com/lucasrosati)
 - [@Luís Melo](https://www.github.com/luisvmelo)
 - [@Ronaldo Souto Maior](https://www.github.com/ronaldotsm)
-- 
 
 ## Stacks
 
