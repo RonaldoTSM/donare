@@ -33,8 +33,13 @@ if NOT_PROD:
     ALLOWED_HOSTS = ['donare.azurewebsites.net', '*']
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DBNAME'),
+            'HOST': os.environ.get('DBHOST'),
+            'PORT': os.environ.get('DBPORT'),
+            'USER': os.environ.get('DBUSER'),
+            'PASSWORD': os.environ.get('DBPASSWORD'),
+            'OPTIONS': {'sslmode': 'require'},
         }
     }
 else:
@@ -54,8 +59,9 @@ else:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('DBNAME'),
             'HOST': os.environ.get('DBHOST'),
+            'PORT': os.environ.get('DBPORT'),
             'USER': os.environ.get('DBUSER'),
-            'PASSWORD': os.environ.get('DBPASS'),
+            'PASSWORD': os.environ.get('DBPASSWORD'),
             'OPTIONS': {'sslmode': 'require'},
         }
     }
@@ -112,12 +118,12 @@ WSGI_APPLICATION = "projeto_donare.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 
 # Password validation
