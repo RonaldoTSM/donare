@@ -118,11 +118,12 @@
         <input type="file" id="profilePicInput" accept="image/*">
         <label for="profilePicInput">+</label>
     </div>    
-    <form id="cadastroForm" onsubmit="event.preventDefault(); verificarCamposObrigatorios();" method="post" action="{% url 'criar_perfil_doador' %}">
+    <form id="cadastroForm" onsubmit="event.preventDefault(); verificarCamposObrigatorios();" method="post" action="">
+        {% csrf_token %}
         <div class="form-section">
-            <input type="text" id="nome_de_usuario" placeholder="* Nome de Usuário" required>
-            <input type="text" id="nome_completo" placeholder="* Nome Completo" required>
-            <input type="text" id="CPF" placeholder="* CPF" onchange="verificaCPF()" oninput="formatarCPF(this)" maxlength="14" required>
+            <input type="text" id="nome_de_usuario" name="nome_de_usuario" placeholder="* Nome de Usuário" required>
+            <input type="text" id="nome_completo" name="nome_completo" placeholder="* Nome Completo" required>
+            <input type="text" id="CPF" name="CPF" placeholder="* CPF" onchange="verificaCPF()" oninput="formatarCPF(this)" maxlength="14" required>
             <div id="cpfError" style="color: red;"></div>
             <input type="date" id="Nascimento" placeholder="* Data de Nascimento" required>
             <textarea placeholder="Descrição" rows="4"></textarea>
@@ -133,17 +134,17 @@
             <input type="text" placeholder="Bairro" required>
             <input type="text" placeholder="Cidade" required>
             <input type="text" placeholder="Estado" required>
-            <input type="tel" id="telefone" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
-            <input type="email" id="email" placeholder="* Email" required>
+            <input type="tel" id="telefone" name="telefone" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
+            <input type="email" id="email" name="email" placeholder="* Email" required>
             <div style="position: relative;">
-                <input type="password" placeholder="* Senha" id="passwordInput" required>
+                <input type="password" placeholder="* Senha" id="passwordInput" name="passwordInput" required>
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABUElEQVR4nO2UvUpDQRCFv8LO4F+rF8GAF19CxFdRqzyBRfRZLBMCaSRCQAjGJoUpLNLEYJFWxSSoZWThXFkna3Jvc7HIgYFlzpnZn5kdWOK/YwsoAdfAEPiSDeUrSZMZK8A5MAGmC2wirYtJhR2g4yVoAidADKzKYvmanq6j2LnYBQYKeAIOUxzIafqKGShHEAWgJ+EdsOFxEVADxrK6bpFgHWgptqdcM7iSoGsEEfAaePs3cf4Bu+Jcrl84EvEJFA1XE+e6Zlvv3JCvarRF5Zgq5w/acl4EbjYW5xcwkm8U0JfFtUMblDNu8B7QX4Y2SJ7oA9gzAXVxDW3ikt/IVzHafX3EmSfyi/ygXk8Qq6C2yC/mVmvA419Ftm3aUusliFTQkaxikm8C94va1H60fsqPdgw8p/lo80bFKXCgkxW0PgNus46KXIZdLuN6ifzwDezZi1/ebTEHAAAAAElFTkSuQmCC" class="show-password" id="togglePassword" onclick="togglePassword()">
             </div>
             <div class="terms">
                 <input type="checkbox" id="terms" required>
                 <label for="terms">Aceito os Termos e Condições</label>
             </div>
-            <button type="submit", id ="interessesButton">Confirmar</button>
+            <button type="submit" id ="interessesButton">Confirmar</button>
         </div>
     </form>
     </div>
@@ -249,6 +250,11 @@
 
             camposObrigatorios.forEach(campo => {
                 if (campo.type !== 'file') {
+                    // Remova a formatação do CPF antes de verificar se está preenchido
+                    if (campo.id === 'CPF') {
+                        campo.value = campo.value.replace(/\D/g, '');
+                    }
+
                     if (campo.value.trim() === '') {
                         camposPreenchidos = false;
                     }
@@ -264,6 +270,7 @@
                 alert('Por favor, preencha todos os campos obrigatórios.');
             } else {
                 enviarDadosParaBackend();
+                window.location.href = '/cadastro_doador/perfil_doador/interesses';
             }
         }
 
@@ -271,32 +278,17 @@
             const formulario = document.getElementById('cadastroForm');
             const formData = new FormData(formulario);
 
-            // Adicione mais dados ao formData, se necessário
-            // formData.append('chave', 'valor');
-
-            fetch('/seu-endpoint-de-salvamento', {
+            fetch('/cadastro_doador/perfil_doador', {
                 method: 'POST',
                 body: formData,
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao salvar os dados.');
-                }
-                return response.json();
             })
             .then(data => {
                 // Trate a resposta do servidor, se necessário
                 console.log('Dados salvos com sucesso:', data);
 
-                // Redirecione para a próxima página
-                window.location.href = '/cadastro_doador/perfil_doador/interesses';
             })
-            .catch(error => {
-                console.error('Erro ao salvar os dados:', error);
-                alert('Erro ao salvar os dados. Por favor, tente novamente.');
-            });
         }
-        
+
     </script>
 </body>
 </html>
