@@ -1,6 +1,6 @@
 # Donare
 
-O Donare
+O Donare é uma plataforma de rede social que visa facilitar a doação e promover transparência ao conectar doadores e organizações não governamentais (ONGs). Esta iniciativa foi criada com o propósito de tornar o processo de doação mais acessível e transparente, permitindo que pessoas generosas encontrem as causas que mais as tocam e auxiliem ONGs que fazem a diferença em todo o mundo.
 
 ## Equipe
 
