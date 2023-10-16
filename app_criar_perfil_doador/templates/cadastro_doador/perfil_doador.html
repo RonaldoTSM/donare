@@ -118,12 +118,13 @@
         <input type="file" id="profilePicInput" accept="image/*">
         <label for="profilePicInput">+</label>
     </div>    
-    <form onsubmit="event.preventDefault(); verificarCamposObrigatorios();">
+    <form id="cadastroForm" onsubmit="event.preventDefault(); verificarCamposObrigatorios();" method="post" action="{% url 'criar_perfil_doador' %}">
         <div class="form-section">
-            <input type="text" placeholder="* Nome de Usuário" required>
-            <input type="text" placeholder="* Nome Completo" required>
-            <input type="text" placeholder="* CPF" onchange="verificaCPF()" oninput="formatarCPF(this)" maxlength="14" required>
-            <input type="date" placeholder="* Data de Nascimento" required>
+            <input type="text" id="nome_de_usuario" placeholder="* Nome de Usuário" required>
+            <input type="text" id="nome_completo" placeholder="* Nome Completo" required>
+            <input type="text" id="CPF" placeholder="* CPF" onchange="verificaCPF()" oninput="formatarCPF(this)" maxlength="14" required>
+            <div id="cpfError" style="color: red;"></div>
+            <input type="date" id="Nascimento" placeholder="* Data de Nascimento" required>
             <textarea placeholder="Descrição" rows="4"></textarea>
             <input type="text" placeholder="* CEP" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
             <input type="text" placeholder="Rua" required>
@@ -132,8 +133,8 @@
             <input type="text" placeholder="Bairro" required>
             <input type="text" placeholder="Cidade" required>
             <input type="text" placeholder="Estado" required>
-            <input type="tel" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
-            <input type="email" placeholder="* Email" required>
+            <input type="tel" id="telefone" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
+            <input type="email" id="email" placeholder="* Email" required>
             <div style="position: relative;">
                 <input type="password" placeholder="* Senha" id="passwordInput" required>
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABUElEQVR4nO2UvUpDQRCFv8LO4F+rF8GAF19CxFdRqzyBRfRZLBMCaSRCQAjGJoUpLNLEYJFWxSSoZWThXFkna3Jvc7HIgYFlzpnZn5kdWOK/YwsoAdfAEPiSDeUrSZMZK8A5MAGmC2wirYtJhR2g4yVoAidADKzKYvmanq6j2LnYBQYKeAIOUxzIafqKGShHEAWgJ+EdsOFxEVADxrK6bpFgHWgptqdcM7iSoGsEEfAaePs3cf4Bu+Jcrl84EvEJFA1XE+e6Zlvv3JCvarRF5Zgq5w/acl4EbjYW5xcwkm8U0JfFtUMblDNu8B7QX4Y2SJ7oA9gzAXVxDW3ikt/IVzHafX3EmSfyi/ygXk8Qq6C2yC/mVmvA419Ftm3aUusliFTQkaxikm8C94va1H60fsqPdgw8p/lo80bFKXCgkxW0PgNus46KXIZdLuN6ifzwDezZi1/ebTEHAAAAAElFTkSuQmCC" class="show-password" id="togglePassword" onclick="togglePassword()">
@@ -192,10 +193,14 @@
             campo.value = cpf;
         }
         function verificaCPF() {
-            const cpfField = document.querySelector('input[placeholder="CPF"]');
+            const cpfField = document.querySelector('#CPF');
             const cpf = cpfField.value;
+
+            const cpfErrorElement = document.getElementById('cpfError');
+            cpfErrorElement.textContent = '';  // Limpa mensagens de erro anteriores
+
             if (!validaCPF(cpf)) {
-                alert("CPF inválido!");
+                cpfErrorElement.textContent = 'CPF inválido!';
                 cpfField.focus();
             }
         }
@@ -258,11 +263,38 @@
             if (!camposPreenchidos) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
             } else {
-                // Se todos os campos obrigatórios estão preenchidos, você pode permitir o envio do formulário
-                document.getElementById("interessesButton").addEventListener("click", function() {
-                    window.location.href = "/cadastro_doador/perfil_doador/interesses";
-                });
+                enviarDadosParaBackend();
             }
+        }
+
+        function enviarDadosParaBackend() {
+            const formulario = document.getElementById('cadastroForm');
+            const formData = new FormData(formulario);
+
+            // Adicione mais dados ao formData, se necessário
+            // formData.append('chave', 'valor');
+
+            fetch('/seu-endpoint-de-salvamento', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao salvar os dados.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Trate a resposta do servidor, se necessário
+                console.log('Dados salvos com sucesso:', data);
+
+                // Redirecione para a próxima página
+                window.location.href = '/cadastro_doador/perfil_doador/interesses';
+            })
+            .catch(error => {
+                console.error('Erro ao salvar os dados:', error);
+                alert('Erro ao salvar os dados. Por favor, tente novamente.');
+            });
         }
         
     </script>
