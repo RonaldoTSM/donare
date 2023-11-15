@@ -80,6 +80,9 @@ INSTALLED_APPS = [
     "app_tela_inicial",
     "app_criar_perfil_ong",
     "app_criar_perfil_doador",
+    "app_publicacao_ong",
+    "app_login",
+    "app_pagina_inicial",
 ]
 
 MIDDLEWARE = [
