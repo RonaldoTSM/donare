@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Donare</title>
-    <style>
+    <style>         
         html, body {
             height: 100%;
             margin: 0;
@@ -79,11 +79,18 @@
         </div>
         <div class="login-container">
             <h2>Login</h2>
-            <form method="post">
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+            <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
-                <input type="text" id="username" name="username" placeholder="Nome de usuário">
-                <input type="password" id="senha" name="senha" placeholder="Senha">
-                <button class="login-button" type="submit">Login</button>
+                <label for="username">Nome de usuário:</label>
+                <input type="text" id="username" name="username" placeholder="Nome de usuário" required>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                <button class="login-button" type="submit" name="login">Login</button>
             </form>
         </div>
     </div>
