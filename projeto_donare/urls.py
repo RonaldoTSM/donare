@@ -19,6 +19,8 @@ from django.urls import path
 from app_tela_inicial import views
 from app_criar_perfil_doador import views as criar_doador_views
 from app_criar_perfil_ong import views as criar_ong_views
+from app_login import views as login_views
+from app_pagina_inicial import views as pagina_inicial_views
 
 
 urlpatterns = [
@@ -28,4 +30,7 @@ urlpatterns = [
     path('cadastro_doador/perfil_doador/interesses/', criar_doador_views.criar_perfil_doador_interesses, name='criar_perfil_doador_interesses'),
     path('cadastro_ong/perfil_ong', criar_ong_views.criar_perfil_ong, name='perfil_ong'),
     path('cadastro_ong/dados_bancarios', criar_ong_views.dados_bancarios_ong, name='dados_bancarios_ong'),
+    path('login/', login_views.login, name='login'),    
+    path('home_doador/', pagina_inicial_views.home_doador, name='home_doador'),
+    path('home_ong/', pagina_inicial_views.home_ong, name='home_ong'),
 ]

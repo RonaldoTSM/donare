@@ -88,9 +88,17 @@
         </div>
     </div>
     <script>
+        // Redirecionar para a página de login ao clicar no botão "Login"
+        document.querySelector(".login-button").addEventListener("click", function() {
+            window.location.href = "/login";
+        });
+    
+        // Redirecionar para a página de perfil de doador ao clicar no botão "Doador"
         document.getElementById("doadorButton").addEventListener("click", function() {
             window.location.href = "/cadastro_doador/perfil_doador";
         });
+    
+        // Redirecionar para a página de perfil de ONG ao clicar no botão "ONG"
         document.getElementById("ongButton").addEventListener("click", function() {
             window.location.href = "/cadastro_ong/perfil_ong";
         });
