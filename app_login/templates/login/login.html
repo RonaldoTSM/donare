@@ -26,7 +26,7 @@
             background-color: #fff;
             display: flex;
             justify-content: space-between;
-            align-items: center;     
+            align-items: center;
         }
         .image-container {
             width: 550px;
@@ -79,8 +79,8 @@
         </div>
         <div class="login-container">
             <h2>Login</h2>
-            <form method="post">
-                {% csrf_token %}
+            <form method="post" action="{% url 'sua_view_de_login' %}">
+                {% csrf_token %} 
                 <input type="text" id="username" name="username" placeholder="Nome de usuário">
                 <input type="password" id="senha" name="senha" placeholder="Senha">
                 <button class="login-button" type="submit">Login</button>
