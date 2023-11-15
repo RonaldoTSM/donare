@@ -1,5 +1,3 @@
-# views.py
-
 from django.shortcuts import render, redirect
 from app_criar_perfil_ong.models import CadastroOng
 from app_criar_perfil_doador.models import Cadastro
