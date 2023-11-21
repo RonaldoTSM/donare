@@ -118,12 +118,13 @@
         <input type="file" id="profilePicInput" accept="image/*">
         <label for="profilePicInput">+</label>
     </div>    
-    <form onsubmit="event.preventDefault(); verificarCamposObrigatorios();">
+    <form id ="cadastroForm" onsubmit="event.preventDefault(); verificarCamposObrigatorios();" method="post" action="">
+        {% csrf_token %}
         <div class="form-section">
-            <input type="text" placeholder="* Nome de Usuário" required>
-            <input type="text" placeholder="* Nome da ONG" required>
-            <input type="text" placeholder="* CNPJ" oninput="formatarCNPJ(this)" maxlength="18" required>
-            <input type="text" placeholder="* Categoria da ONG" required>
+            <input type="text" id="nome_de_usuario" name="nome_de_usuario" placeholder="* Nome de Usuário" required>
+            <input type="text" id="nome_completo" name="nome_completo" placeholder="* Nome da ONG" required>
+            <input type="text" id="cnpj" name="cnpj" placeholder="* CNPJ" oninput="formatarCNPJ(this)" maxlength="18" required>
+            <input type="text" id="categoria" name="categoria" placeholder="* Categoria da ONG" required>
             <textarea placeholder="* Descrição" rows="4"></textarea required>
             <input type="text" placeholder="* CEP" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
             <input type="text" placeholder="Rua" required>
@@ -132,10 +133,10 @@
             <input type="text" placeholder="Bairro" required>
             <input type="text" placeholder="Cidade" required>
             <input type="text" placeholder="Estado" required>
-            <input type="tel" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
-            <input type="email" placeholder="* Email" required>
+            <input type="tel" id="telefone" name="telefone" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
+            <input type="email" id="email" name="email" placeholder="* Email" required>
             <div style="position: relative;">
-                <input type="password" placeholder="* Senha" id="passwordInput" required>
+                <input type="password" placeholder="* Senha" id="passwordInput" name="passwordInput" required>
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABUElEQVR4nO2UvUpDQRCFv8LO4F+rF8GAF19CxFdRqzyBRfRZLBMCaSRCQAjGJoUpLNLEYJFWxSSoZWThXFkna3Jvc7HIgYFlzpnZn5kdWOK/YwsoAdfAEPiSDeUrSZMZK8A5MAGmC2wirYtJhR2g4yVoAidADKzKYvmanq6j2LnYBQYKeAIOUxzIafqKGShHEAWgJ+EdsOFxEVADxrK6bpFgHWgptqdcM7iSoGsEEfAaePs3cf4Bu+Jcrl84EvEJFA1XE+e6Zlvv3JCvarRF5Zgq5w/acl4EbjYW5xcwkm8U0JfFtUMblDNu8B7QX4Y2SJ7oA9gzAXVxDW3ikt/IVzHafX3EmSfyi/ygXk8Qq6C2yC/mVmvA419Ftm3aUusliFTQkaxikm8C94va1H60fsqPdgw8p/lo80bFKXCgkxW0PgNus46KXIZdLuN6ifzwDezZi1/ebTEHAAAAAElFTkSuQmCC" class="show-password" onclick="togglePassword()">
             </div>
             <div class="terms">
@@ -231,13 +232,25 @@
             if (!camposPreenchidos) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
             } else {
-                // Se todos os campos obrigatórios estão preenchidos, você pode permitir o envio do formulário
-                document.getElementById("dadosBancariosButton").addEventListener("click", function() {
-                    window.location.href = "/cadastro_ong/dados_bancarios";
-                });
+                enviarDadosParaBackend();
+                window.location.href = '/cadastro_ong/dados_bancarios';
             }
         }
 
+        function enviarDadosParaBackend() {
+            const formulario = document.getElementById('cadastroForm');
+            const formData = new FormData(formulario);
+
+            fetch('/cadastro_doador/perfil_ong', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(data => {
+                // Trate a resposta do servidor, se necessário
+                console.log('Dados salvos com sucesso:', data);
+
+            })
+        }
         
     </script>
 </body>
