@@ -15,12 +15,23 @@ def criar_perfil_doador(request):
         telefone = request.POST.get('telefone')
         email = request.POST.get('email')
         senha = request.POST.get('passwordInput')
+        nascimento = request.POST.get('Nascimento')
+        descricao = request.POST.get('descricao')
+        cep = request.POST.get('CEP')
+        rua = request.POST.get('Rua')
+        numero = request.POST.get('numero')
+        complemento = request.POST.get('complemento')
+        bairro = request.POST.get('bairro')
+        cidade = request.POST.get('cidade')
+        estado = request.POST.get('estado')
 
         cpf = ''.join(c for c in cpf if c.isdigit())
         telefone = ''.join(c for c in telefone if c.isdigit())
+        nascimento = ''.join(c for c in nascimento if c.isdigit())
+        cep = ''.join(c for c in cep if c.isdigit())
 
         # Crie uma instância do seu modelo e salve no banco de dados
-        novo_usuario = Cadastro(Nome=Nome, username=username, senha=senha, cpf=cpf, email=email, telefone=telefone)
+        novo_usuario = Cadastro(Nome=Nome, username=username, senha=senha, cpf=cpf, email=email, telefone=telefone, nascimento=nascimento, descricao=descricao, rua=rua, numero=numero, complemento=complemento, bairro=bairro, cidade=cidade, estado=estado, cep=cep)
         try:
             novo_usuario.save()
             print("Usuário salvo com sucesso.")

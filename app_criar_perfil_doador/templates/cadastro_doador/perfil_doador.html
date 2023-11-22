@@ -125,15 +125,15 @@
             <input type="text" id="nome_completo" name="nome_completo" placeholder="* Nome Completo" required>
             <input type="text" id="CPF" name="CPF" placeholder="* CPF" onchange="verificaCPF()" oninput="formatarCPF(this)" maxlength="14" required>
             <div id="cpfError" style="color: red;"></div>
-            <input type="date" id="Nascimento" placeholder="* Data de Nascimento" required>
-            <textarea placeholder="Descrição" rows="4"></textarea>
-            <input type="text" placeholder="* CEP" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
-            <input type="text" placeholder="Rua" required>
-            <input type="text" placeholder="Número">
-            <input type="text" placeholder="Complemento">
-            <input type="text" placeholder="Bairro" required>
-            <input type="text" placeholder="Cidade" required>
-            <input type="text" placeholder="Estado" required>
+            <input type="date" id="Nascimento" name="Nascimento" placeholder="* Data de Nascimento" required>
+            <textarea placeholder="Descrição" id="descricao" name="descricao" rows="4"></textarea>
+            <input type="text" id="CEP" name="CEP" placeholder="* CEP" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
+            <input type="text" id="Rua" name="Rua" placeholder="Rua" required>
+            <input type="text" id="numero" name="numero" placeholder="Número">
+            <input type="text" id="complemento" name="complemento" placeholder="Complemento">
+            <input type="text" id="bairro" name="bairro" placeholder="Bairro" required>   
+            <input type="text" id="cidade" name="cidade" placeholder="Cidade" required>
+            <input type="text" id="estado" name="estado" placeholder="Estado" required>
             <input type="tel" id="telefone" name="telefone" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
             <input type="email" id="email" name="email" placeholder="* Email" required>
             <div style="position: relative;">
