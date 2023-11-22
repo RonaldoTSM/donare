@@ -7,6 +7,15 @@ class Cadastro(models.Model):
     cpf = models.CharField(max_length=11, unique=True)
     email = models.EmailField(max_length=50, unique=True)
     telefone = models.CharField(max_length=11)
+    nascimento = models.CharField(max_length=8)
+    descricao = models.CharField(max_length=500)
+    rua = models.CharField(max_length=50)
+    numero = models.CharField(max_length=10)
+    complemento = models.CharField(max_length=10)
+    bairro = models.CharField(max_length=50)
+    cidade = models.CharField(max_length=50)
+    estado = models.CharField(max_length=50)
+    cep = models.CharField(max_length=9)
 
     class Meta:
         db_table = 'dados-cadastrais-doador'
