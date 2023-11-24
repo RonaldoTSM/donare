@@ -64,17 +64,74 @@
 </head>
 <body>
     <h1>Informações para Recebimento de Doações</h1>
-    <form onsubmit="event.preventDefault();">
-        <input type="text" placeholder="* Nome do Titular da Conta" required>            
-        <input type="text" placeholder="* Conta Bancária" required>
-        <input type="text" placeholder="* Agência" required>
-        <input type="text" placeholder="* Banco" required>
-        <input type="text" placeholder="* Tipo de Conta (Corrente/Poupança)" required>
-        <input type="text" placeholder="* Cidade da Agência" required>
-        <input type="text" placeholder="* Estado da Agência" required>   
-        <input type="text" placeholder="Chave PIX" required>         
-        <textarea placeholder="Observações adicionais"></textarea>
+    <form onsubmit="event.preventDefault(); SalvarDados()">
+        {% csrf_token %}
+        <input type="text" id="nome_titular" name="nome_titular" placeholder="* Nome do Titular da Conta" required>            
+        <input type="text" id="conta" name="conta" placeholder="* Conta Bancária" required>
+        <input type="text" id="agencia" name="agencia" placeholder="* Agência" required>
+        <input type="text" id="banco" name="banco" placeholder="* Banco" required>
+        <input type="text" id="tipoConta" name="tipoConta" placeholder="* Tipo de Conta (Corrente/Poupança)" required>
+        <input type="text" id="cidade" name="cidade" placeholder="* Cidade da Agência" required>
+        <input type="text" id="estado" name="estado" placeholder="* Estado da Agência" required>   
+        <input type="text" id="pix" name="pix" placeholder="Chave PIX" required>         
+        <textarea placeholder="Observações adicionais" id="obs" name="obs"></textarea>
         <button type="submit">Enviar Informações</button>
     </form>
 </body>
+<script>
+
+    function SalvarDados() {
+        const username = localStorage.getItem('username');
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // Obtenha os valores dos campos do formulário
+        const nomeTitular = document.getElementById('nome_titular').value;
+        const conta = document.getElementById('conta').value;
+        const agencia = document.getElementById('agencia').value;
+        const banco = document.getElementById('banco').value;
+        const tipoConta = document.getElementById('tipoConta').value;
+        const cidade = document.getElementById('cidade').value;
+        const estado = document.getElementById('estado').value;
+        const pix = document.getElementById('pix').value;
+        const obs = document.getElementById('obs').value;
+
+        // Crie um objeto com os dados a serem enviados
+        const dados = {
+            username: username,
+            nome_titular: nomeTitular,
+            conta: conta,
+            agencia: agencia,
+            banco: banco,
+            tipoConta: tipoConta,
+            cidade: cidade,
+            estado: estado,
+            pix: pix,
+            obs: obs,
+        };
+
+        // Use o método fetch com o cabeçalho adequado
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(dados),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Dados salvos com sucesso!');
+                window.location.href = '/';
+            } else {
+                alert('Erro ao salvar dados. Tente novamente.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao salvar dados:', error);
+            alert('Erro ao salvar dados. Tente novamente.');
+        });
+    }
+
+</script>
 </html>

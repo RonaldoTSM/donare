@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from app_criar_perfil_ong.models import CadastroOng
+from app_criar_perfil_ong.models import CadastroOng, DadosBancariosOng
 from django.db import IntegrityError
 from django.http import JsonResponse
+import json
 
 def criar_perfil_ong(request):
     if request.method == 'POST':
@@ -43,4 +44,38 @@ def criar_perfil_ong(request):
     return render(request, 'cadastro_ong/perfil_ong.html')
 
 def dados_bancarios_ong(request):
+    if request.method == 'POST':
+        print('Dados recebidos no servidor')
+        data = json.loads(request.body)
+        ong_user = data.get('username')
+        nome_titular = data.get('nome_titular')
+        conta = data.get('conta')
+        agencia = data.get('agencia')
+        banco = data.get('banco')
+        tipoConta = data.get('tipoConta')
+        cidade = data.get('cidade')
+        estado = data.get('estado')
+        pix = data.get('pix')
+        obs = data.get('obs')
+
+        dados_bancarios = DadosBancariosOng(
+            ong_user=ong_user, 
+            nome_titular=nome_titular, 
+            conta=conta, 
+            agencia=agencia, 
+            banco=banco, 
+            tipoConta=tipoConta, 
+            cidade=cidade, 
+            estado=estado, 
+            pix=pix, 
+            obs=obs
+        )
+
+        try:
+            dados_bancarios.save()
+            print("Dados salvos com sucesso.")
+            return JsonResponse({'success': True})
+        except Exception as e:
+            print(f"Erro ao salvar dados: {e}")
+
     return render(request, 'cadastro_ong/dados_bancarios.html')
