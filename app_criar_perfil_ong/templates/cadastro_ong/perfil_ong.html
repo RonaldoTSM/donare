@@ -121,18 +121,41 @@
     <form id ="cadastroForm" onsubmit="event.preventDefault(); verificarCamposObrigatorios();" method="post" action="">
         {% csrf_token %}
         <div class="form-section">
+            {% if error_message %}
+                <div style="color: red;">{{ error_message }}</div>
+            {% endif %}
             <input type="text" id="nome_de_usuario" name="nome_de_usuario" placeholder="* Nome de Usuário" required>
             <input type="text" id="nome_completo" name="nome_completo" placeholder="* Nome da ONG" required>
             <input type="text" id="cnpj" name="cnpj" placeholder="* CNPJ" oninput="formatarCNPJ(this)" maxlength="18" required>
-            <input type="text" id="categoria" name="categoria" placeholder="* Categoria da ONG" required>
-            <textarea placeholder="* Descrição" rows="4"></textarea required>
-            <input type="text" placeholder="* CEP" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
-            <input type="text" placeholder="Rua" required>
-            <input type="text" placeholder="Número">
-            <input type="text" placeholder="Complemento">
-            <input type="text" placeholder="Bairro" required>
-            <input type="text" placeholder="Cidade" required>
-            <input type="text" placeholder="Estado" required>
+            
+            <label for="categoria">Categoria da ONG:</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="Esportes">Esportes</option>
+                    <option value="Música">Música</option>
+                    <option value="Tecnologia">Tecnologia</option>
+                    <option value="Arte">Arte</option>
+                    <option value="Viagens">Viagens</option>
+                    <option value="Culinária">Culinária</option>
+                    <option value="Idosos">Idosos</option>
+                    <option value="PSR">PSR</option>
+                    <option value="Crianças">Crianças</option>
+                    <option value="Animais">Animais</option>
+                </select>
+            <!--
+                <input type="text" id="categoria" name="categoria" placeholder="* Categoria da ONG" required>
+                <label for="tipo_usuario">Tipo de Usuário:</label>
+                <select id="tipo_usuario" name="tipo_usuario" required>
+                    <option value="MORADOR">Morador</option>
+                    <option value="FUNCIONÁRIO">Funcionário</option>
+                </select> -->
+            <textarea placeholder="* Descrição" id="descricao" name="descricao" rows="4"></textarea required>
+            <input type="text" placeholder="* CEP" id="cep" name="cep" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
+            <input type="text" placeholder="Rua" id="rua" name="rua" required>
+            <input type="text" placeholder="Número" id="numero" name="numero">
+            <input type="text" placeholder="Complemento" id="complemento" name="complemento">
+            <input type="text" placeholder="Bairro" id="bairro" name="bairro" required>
+            <input type="text" placeholder="Cidade" id="cidade" name="cidade" required>
+            <input type="text" placeholder="Estado" id="estado" name="estado" required>
             <input type="tel" id="telefone" name="telefone" placeholder="* Telefone" oninput="formatarTelefone(this)" maxlength="15" required>
             <input type="email" id="email" name="email" placeholder="* Email" required>
             <div style="position: relative;">
@@ -233,7 +256,6 @@
                 alert('Por favor, preencha todos os campos obrigatórios.');
             } else {
                 enviarDadosParaBackend();
-                window.location.href = '/cadastro_ong/dados_bancarios';
             }
         }
 
@@ -245,11 +267,20 @@
                 method: 'POST',
                 body: formData,
             })
+            .then(response => response.json())
             .then(data => {
-                // Trate a resposta do servidor, se necessário
-                console.log('Dados salvos com sucesso:', data);
-
+                if (data.success) {
+                    userSavedSuccessfully = true;
+                    // Redirecione aqui, após o sucesso da requisição
+                    window.location.href = '/cadastro_ong/dados_bancarios/';
+                } else {
+                    alert(data.error_message);
+                }
             })
+            .catch(error => {
+                console.error('Erro ao enviar dados para o backend:', error);
+                alert('Erro ao enviar dados para o backend.');
+            });
         }
         
     </script>
