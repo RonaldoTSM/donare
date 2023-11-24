@@ -7,6 +7,15 @@ class CadastroOng(models.Model):
     telefone = models.CharField(max_length=11)
     email = models.EmailField(max_length=100, unique=True)
     senha = models.CharField(max_length=50)
+    categoria = models.CharField(max_length=50)
+    descricao = models.CharField(max_length=500)
+    cep = models.CharField(max_length=9)
+    rua = models.CharField(max_length=50)
+    numero = models.CharField(max_length=10)
+    complemento = models.CharField(max_length=20)
+    bairro = models.CharField(max_length=50)
+    cidade = models.CharField(max_length=50)
+    estado = models.CharField(max_length=50)
 
     class Meta:
         db_table = 'dados-cadastrais-ong'
