@@ -28,13 +28,21 @@
             width: 600px;
             margin: auto;
         }
-        input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea, button {
+        input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea, select, button {
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 5px;
             width: 100%;
             font-family: Arial, sans-serif;
             position: relative;
+        }
+        select {
+            width: 109.5%;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: 98%;
+            background-position-y: 50%;
         }
         ::placeholder {
             font-family: Arial, sans-serif;
@@ -126,11 +134,12 @@
             {% endif %}
             <input type="text" id="nome_de_usuario" name="nome_de_usuario" placeholder="* Nome de Usuário" required>
             <input type="text" id="nome_completo" name="nome_completo" placeholder="* Nome da ONG" required>
-            <input type="text" id="cnpj" name="cnpj" placeholder="* CNPJ" oninput="formatarCNPJ(this)" maxlength="18" required>
-            
-            <label for="categoria">Categoria da ONG:</label>
-                <select id="categoria" name="categoria" required>
+            <input type="text" id="cnpj" name="cnpj" placeholder="* CNPJ" oninput="formatarCNPJ(this)" maxlength="18" required>            
+                        
+            <select id="categoria" name="categoria" required>
+                    <option value="" disabled selected>Escolha uma Categoria</option>
                     <option value="Esportes">Esportes</option>
+                    <option value="Música">Música</option>
                     <option value="Música">Música</option>
                     <option value="Tecnologia">Tecnologia</option>
                     <option value="Arte">Arte</option>
@@ -140,14 +149,8 @@
                     <option value="PSR">PSR</option>
                     <option value="Crianças">Crianças</option>
                     <option value="Animais">Animais</option>
-                </select>
-            <!--
-                <input type="text" id="categoria" name="categoria" placeholder="* Categoria da ONG" required>
-                <label for="tipo_usuario">Tipo de Usuário:</label>
-                <select id="tipo_usuario" name="tipo_usuario" required>
-                    <option value="MORADOR">Morador</option>
-                    <option value="FUNCIONÁRIO">Funcionário</option>
-                </select> -->
+                </select>         
+                
             <textarea placeholder="* Descrição" id="descricao" name="descricao" rows="4"></textarea required>
             <input type="text" placeholder="* CEP" id="cep" name="cep" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
             <input type="text" placeholder="Rua" id="rua" name="rua" required>

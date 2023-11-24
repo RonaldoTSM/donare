@@ -126,8 +126,7 @@
         <div class="form-section">
             <input type="text" id="nome_de_usuario" name="nome_de_usuario" placeholder="* Nome de Usuário" required>
             <input type="text" id="nome_completo" name="nome_completo" placeholder="* Nome Completo" required>
-            <input type="text" id="CPF" name="CPF" placeholder="* CPF" onchange="verificaCPF()" oninput="formatarCPF(this)" maxlength="14" required>
-            <div id="cpfError" style="color: red;"></div>
+            <input type="text" id="CPF" name="CPF" placeholder="* CPF" onchange="verificaCPF()" oninput="formatarCPF(this)" maxlength="14" required>            
             <input type="date" id="Nascimento" name="Nascimento" placeholder="* Data de Nascimento" required>
             <textarea placeholder="Descrição" id="descricao" name="descricao" rows="4"></textarea>
             <input type="text" id="CEP" name="CEP" placeholder="* CEP" oninput="formatarCEP(this)" onchange="fetchAddress()" maxlength="9" required>
@@ -203,14 +202,14 @@
             const cpfField = document.querySelector('#CPF');
             const cpf = cpfField.value;
 
-            const cpfErrorElement = document.getElementById('cpfError');
-            cpfErrorElement.textContent = '';  // Limpa mensagens de erro anteriores
-
             if (!validaCPF(cpf)) {
-                cpfErrorElement.textContent = 'CPF inválido!';
+                alert('CPF inválido!');
                 cpfField.focus();
+                return false;
             }
+            return true;
         }
+
         function validaCPF(cpf) {
             cpf = cpf.replace(/[^\d]+/g, ''); // Limpa o CPF removendo pontos e traço
 
@@ -254,6 +253,11 @@
             const camposObrigatorios = document.querySelectorAll('[required]');
             let camposPreenchidos = true;
 
+            // Primeiro, verifica se o CPF é válido
+            if (!verificaCPF()) {
+                return; // Interrompe a função se o CPF for inválido
+            }
+
             camposObrigatorios.forEach(campo => {
                 if (campo.type !== 'file') {
                     // Remova a formatação do CPF antes de verificar se está preenchido
@@ -274,9 +278,11 @@
 
             if (!camposPreenchidos) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
-            } else {
-                enviarDadosParaBackend();
+                return;
             }
+
+            // Se todos os campos obrigatórios estiverem preenchidos e o CPF for válido, prossegue para enviar os dados
+            enviarDadosParaBackend();
         }
 
         function enviarDadosParaBackend() {
