@@ -2,6 +2,7 @@ from app_criar_perfil_doador.models import Cadastro
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.http import JsonResponse
+import json
 
 def criar_perfil_doador_interesses(request):
     return render(request, 'cadastro_doador/interesses.html')
@@ -46,3 +47,27 @@ def criar_perfil_doador(request):
             return JsonResponse({'success': False, 'error_message': error_message})
 
     return render(request, 'cadastro_doador/perfil_doador.html')
+
+def salvar_interesses(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        interesses = data.get('interesses')
+        print(username)
+
+        # Encontre o usuário no banco de dados usando o username
+        try:
+            usuario = Cadastro.objects.get(username=username)
+            usuario.interesses = interesses
+            usuario.save()
+            return JsonResponse({'success': True})
+        except Cadastro.DoesNotExist:
+            error_message = 'Usuário não encontrado.'
+            print(error_message)
+            return JsonResponse({'success': False, 'error_message': error_message})
+        except Exception as e:
+            error_message = f"Erro ao salvar interesses: {str(e)}"
+            print(error_message)
+            return JsonResponse({'success': False, 'error_message': error_message})
+
+    return render(request, 'cadastro_doador/interesses.html')

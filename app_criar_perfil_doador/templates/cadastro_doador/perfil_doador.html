@@ -280,9 +280,11 @@
         }
 
         function enviarDadosParaBackend() {
+            const username = document.getElementById('nome_de_usuario').value;
             const formulario = document.getElementById('cadastroForm');
             const formData = new FormData(formulario);
 
+            localStorage.setItem('username', username);
             fetch('/cadastro_doador/perfil_doador', {
                 method: 'POST',
                 body: formData,

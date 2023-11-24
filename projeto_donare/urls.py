@@ -27,7 +27,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', views.tela_inicial, name='tela_inicial'),
     path('cadastro_doador/perfil_doador', criar_doador_views.criar_perfil_doador, name='criar_perfil_doador'),
-    path('cadastro_doador/perfil_doador/interesses/', criar_doador_views.criar_perfil_doador_interesses, name='criar_perfil_doador_interesses'),
+    path('cadastro_doador/perfil_doador/interesses/', criar_doador_views.salvar_interesses, name='criar_perfil_doador_interesses'),
     path('cadastro_ong/perfil_ong', criar_ong_views.criar_perfil_ong, name='perfil_ong'),
     path('cadastro_ong/dados_bancarios/', criar_ong_views.dados_bancarios_ong, name='dados_bancarios_ong'),
     path('login/', login_views.login, name='login'),    
