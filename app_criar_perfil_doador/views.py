@@ -1,6 +1,7 @@
 from app_criar_perfil_doador.models import Cadastro
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
+from django.http import JsonResponse
 
 def criar_perfil_doador_interesses(request):
     return render(request, 'cadastro_doador/interesses.html')
@@ -35,10 +36,13 @@ def criar_perfil_doador(request):
         try:
             novo_usuario.save()
             print("Usuário salvo com sucesso.")
+            return JsonResponse({'success': True})
         except IntegrityError as e:
-            print(f"Erro ao salvar no banco de dados: {e}")
-
-        # Renderize a página diretamente
-        return redirect('/cadastro_doador/perfil_doador/interesses/')
+            if 'UNIQUE constraint failed' in str(e):
+                error_message = "Os dados já existem. Por favor, verifique e tente novamente."
+            else:
+                error_message = f"Erro ao cadastrar usuário"
+            print(error_message)
+            return JsonResponse({'success': False, 'error_message': error_message})
 
     return render(request, 'cadastro_doador/perfil_doador.html')

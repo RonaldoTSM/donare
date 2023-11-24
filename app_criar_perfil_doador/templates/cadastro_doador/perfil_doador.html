@@ -120,6 +120,9 @@
     </div>    
     <form id="cadastroForm" onsubmit="event.preventDefault(); verificarCamposObrigatorios();" method="post" action="">
         {% csrf_token %}
+        {% if error_message %}
+            <div style="color: red;">{{ error_message }}</div>
+        {% endif %}
         <div class="form-section">
             <input type="text" id="nome_de_usuario" name="nome_de_usuario" placeholder="* Nome de Usuário" required>
             <input type="text" id="nome_completo" name="nome_completo" placeholder="* Nome Completo" required>
@@ -149,6 +152,9 @@
     </form>
     </div>
     <script>
+
+        let userSavedSuccessfully = false;
+
         function togglePassword() {
             const passwordInput = document.getElementById('passwordInput');
             if (passwordInput.type === "password") {
@@ -270,7 +276,6 @@
                 alert('Por favor, preencha todos os campos obrigatórios.');
             } else {
                 enviarDadosParaBackend();
-                window.location.href = '/cadastro_doador/perfil_doador/interesses';
             }
         }
 
@@ -282,11 +287,20 @@
                 method: 'POST',
                 body: formData,
             })
+            .then(response => response.json())
             .then(data => {
-                // Trate a resposta do servidor, se necessário
-                console.log('Dados salvos com sucesso:', data);
-
+                if (data.success) {
+                    userSavedSuccessfully = true;
+                    // Redirecione aqui, após o sucesso da requisição
+                    window.location.href = '/cadastro_doador/perfil_doador/interesses';
+                } else {
+                    alert(data.error_message);
+                }
             })
+            .catch(error => {
+                console.error('Erro ao enviar dados para o backend:', error);
+                alert('Erro ao enviar dados para o backend.');
+            });
         }
 
     </script>
