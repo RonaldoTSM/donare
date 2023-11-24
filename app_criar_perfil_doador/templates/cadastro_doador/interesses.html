@@ -84,6 +84,7 @@
 <body>
     <h1>Escolha seus Interesses</h1>
     <div class="interests-section">
+        {% csrf_token %}
         <div class="interest-row">
             <div class="interest" onclick="toggleInterest(this)">Esportes</div>
             <div class="interest" onclick="toggleInterest(this)">Música</div>
@@ -107,6 +108,7 @@
     </div>
 
     <script>
+
         function toggleInterest(element) {
             element.classList.toggle('selected');
         }
@@ -122,8 +124,48 @@
                 alert("Selecione pelo menos um interesse antes de concluir.");
                 return;
             }
-            // Implemente a ação de confirmação, se necessário
-            alert("Interesses confirmados!");
+
+            // Crie uma array para armazenar os interesses selecionados
+            const interessesArray = [];
+            selectedInterests.forEach(interest => {
+                interessesArray.push(interest.textContent);
+            });
+
+            // Converta a array de interesses para uma string, separada por algum delimitador (por exemplo, vírgula)
+            const interessesString = interessesArray.join(',');
+
+            // Envie a string de interesses para o backend
+            saveInteresses(interessesString);
+        }
+
+        function saveInteresses(interessesString) {
+            const username = localStorage.getItem('username');
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,  // Adicione esta linha para incluir o token CSRF
+                },
+                body: JSON.stringify({
+                    username: username,
+                    interesses: interessesString,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Interesses salvos com sucesso!");
+                    window.location.href = '/';
+                } else {
+                    alert("Erro ao salvar interesses. Tente novamente.");
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao salvar interesses:', error);
+                alert('Erro ao salvar interesses. Tente novamente.');
+            });
         }
     </script>
 </body>

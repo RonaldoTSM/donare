@@ -16,6 +16,7 @@ class Cadastro(models.Model):
     cidade = models.CharField(max_length=50)
     estado = models.CharField(max_length=50)
     cep = models.CharField(max_length=9)
+    interesses = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'dados-cadastrais-doador'
