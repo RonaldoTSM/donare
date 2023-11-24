@@ -29,7 +29,7 @@ if NOT_PROD:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
     # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = 'A SECRET KEY DO SEU PROJETO'
     ALLOWED_HOSTS = ['donare.azurewebsites.net', '*']
     DATABASES = {
         'default': {
