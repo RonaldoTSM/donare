@@ -1,262 +1,89 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub do Doador - ONG Donare</title>
+    <title>{{ doador.Nome }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f4f4f4;
-        }
-
-        .header {
-            background-color: #0056b3;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        nav ul {
-            list-style-type: none;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: center;
-            max-width: 1200px;
+        }
+        .container {
+            width: 80%;
             margin: auto;
+            overflow: hidden;
         }
-
-        nav ul li {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 10px;
-            width: calc(33.333% - 20px);
-            text-align: center;
-        }
-
-        .button-container button {
-            padding: 10px 15px;
-            background-color: #0056b3;
+        header {
+            background: #50b3a2;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e8491d 3px solid;
         }
-
-        .button-container button:hover {
-            background-color: #003f8a;
-        }
-
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup-content {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .popup-content input,
-        .popup-content select,
-        .popup-content button {
-            margin-top: 10px;
-            width: 90%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        .popup-content button {
-            background-color: #0056b3;
-            color: white;
-            border: none;
-        }
-
-        .popup-content button:hover {
-            background-color: #003f8a;
-        }
-
-        .close-btn {
-            float: right;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        @media (max-width: 600px) {
-            nav ul li {
-                width: calc(50% - 20px);
-            }
-
-            .popup-content {
-                width: 80%;
-            }
-        }
-
-        @media (max-width: 400px) {
-            nav ul li {
-                width: 100%;
-                margin: 10px 0;
-            }
-        }
-
-        .share-buttons button {
-            background-color: #0056b3;
-            margin-top: 10px;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
             font-size: 16px;
         }
-
-        .share-buttons button:hover {
-            background-color: #003f8a;
+        header ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            overflow: hidden;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        header .highlight, header .current a {
+            color: #e8491d;
+            font-weight: bold;
+        }
+        header a:hover {
+            color: #ffffff;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Bem-vindo ao Hub do Doador da ONG Donare</h1>
-    </div>
-
-    <nav>
-        <ul>            
-            <li>
-                <span>Saamritanos</span>
-                <div class="button-container">
-                    <button onclick="openDonationPopup('Samaritanos')">Doar</button>
-                </div>
-            </li>
-            <li>
-                <span>Gotas de Flor com Amor</span>
-                <div class="button-container">
-                    <button onclick="openDonationPopup('Gotas de Flor com Amor')">Doar</button>
-                </div>
-            </li>
-            <li>
-                <span>FAS</span>
-                <div class="button-container">
-                    <button onclick="openDonationPopup('FAS')">Doar</button>
-                </div>
-            </li>
-            <li>            
-                <span>Casa Azul</span>
-                <div class="button-container">
-                    <button onclick="openDonationPopup('Casa Azul')">Doar</button>
-                </div>
-            </li>     
-            <li>      
-                <span>APAE</span>
-                <div class="button-container">
-                    <button onclick="openDonationPopup('APAE')">Doar</button>
-                </div>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Popup de Doação -->
-    <div id="donationPopup" class="popup-overlay">
-        <div class="popup-content">
-            <span class="close-btn" onclick="closeDonationPopup()">&times;</span>
-            <h2>Doação para <span id="donationOngName">[ONG]</span></h2>
-            <input type="number" id="donationAmountInput" placeholder="Inserir Valor Desejado" oninput="calculatePeopleHelped()">
-            <select id="typeOfDonation">
-                <option value="">Forma de Pagamento</option>
-                <option value="pix">Pix</option>
-                <option value="credito">Crédito</option>
-                <option value="debito">Débito</option>
-            </select>
-            <button onclick="confirmDonation()">Confirmar</button>
-            <p id="donationMessage">Com a doação de R$ <span id="donationAmountText">0,00</span> você está ajudando <span id="peopleHelped">0</span> pessoas.</p>
-        </div>
-    </div>
-
-    <!-- Popup de Compartilhamento -->
-    <div id="sharePopup" class="popup-overlay">
-        <div class="popup-content">
-            <span class="close-btn" onclick="closeSharePopup()">&times;</span>
-            <h2>Obrigado por sua doação!</h2>
-            <p>Gostaria de compartilhar sua boa ação com amigos?</p>
-            <div class="share-buttons">
-                <button onclick="shareOnFacebook()">Facebook</button>
-                <button onclick="shareOnX()">X</button>
-                <button onclick="shareOnWhatsApp()">WhatsApp</button>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>{{ doador.Nome }}</h1>
             </div>
+            <nav>
+                <ul>
+                    <li class="current"><a href="#">Home</a></li>                    
+                </ul>
+            </nav>
         </div>
+    </header>
+
+    <div class="container">
+        <h2>Informações do Cadastro</h2>
+        <p><strong>Nome:</strong> {{ doador.Nome }}</p>
+        <p><strong>Username:</strong> {{ doador.username }}</p>
+        <p><strong>CPF:</strong> {{ doador.cpf }}</p>
+        <p><strong>Email:</strong> {{ doador.email }}</p>
+        <p><strong>Telefone:</strong> {{ doador.telefone }}</p>
+        <p><strong>Data de Nascimento:</strong> {{ doador.nascimento }}</p>
+        <p><strong>Descrição:</strong> {{ doador.descricao }}</p>
+        <p><strong>Endereço:</strong> {{ doador.rua }}, {{ doador.numero }} - {{ doador.complemento }}, {{ doador.bairro }}, {{ doador.cidade }} - {{ doador.estado }}</p>
+        <p><strong>CEP:</strong> {{ doador.cep }}</p>
+        <p><strong>Interesses:</strong> {{ doador.interesses }}</p>
     </div>
-
-    <script>
-        var sharedOngName = "";
-
-        function openDonationPopup(ongName) {
-            sharedOngName = ongName;
-            document.getElementById('donationOngName').textContent = ongName;
-            document.getElementById('donationPopup').style.display = 'flex';
-        }
-
-        function closeDonationPopup() {
-            document.getElementById('donationPopup').style.display = 'none';
-        }
-
-        function calculatePeopleHelped() {
-            var amount = document.getElementById('donationAmountInput').value;
-            var peopleHelped = amount ? Math.floor(amount / 10) : 0;
-            document.getElementById('peopleHelped').textContent = peopleHelped;
-            document.getElementById('donationAmountText').textContent = amount ? parseFloat(amount).toFixed(2).replace('.', ',') : '0,00';
-        }
-
-        function confirmDonation() {
-            var amount = document.getElementById('donationAmountInput').value;
-            var typeOfDonation = document.getElementById('typeOfDonation').value;
-            if (amount && typeOfDonation) {
-                document.getElementById('donationPopup').style.display = 'none';
-                document.getElementById('sharePopup').style.display = 'flex';
-            } else {
-                alert('Por favor, insira um valor e selecione a forma de pagamento para doar.');
-            }
-        }
-
-        function closeSharePopup() {
-            document.getElementById('sharePopup').style.display = 'none';
-        }
-
-        function shareOnFacebook() {
-            var url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL) + "&quote=" + encodeURIComponent("Acabei de fazer uma doação para " + sharedOngName + "! Confira e considere doar você também, pelo https://donare.azurewebsites.net/");
-            window.open(url, '_blank');
-        }
-
-        function shareOnX() {
-            var text = "Acabei de fazer uma doação para " + sharedOngName + ", pelo https://donare.azurewebsites.net/";
-            var url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
-            window.open(url, '_blank');
-        }
-
-        function shareOnWhatsApp() {
-            var text = "Acabei de fazer uma doação para " + sharedOngName + "! Confira e considere doar você também, pelo https://donare.azurewebsites.net/";
-            var url = "https://wa.me/?text=" + encodeURIComponent(text);
-            window.open(url, '_blank');
-        }
-    </script>
 </body>
 </html>

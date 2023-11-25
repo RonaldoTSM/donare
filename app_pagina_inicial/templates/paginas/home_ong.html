@@ -1,51 +1,88 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage da ONG - Donare</title>
+    <title>{{ ong.nome }}</title>
     <style>
-        html, body {
-            height: 100%;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f4f4f4;
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
         }
-        .header {
-            width: 100%;
-            background-image: url('https://i.imgur.com/Wu9QOfh.jpg');
-            background-size: cover;
-            background-position: center;
+        header {
+            background: #50b3a2;
             color: white;
-            text-align: center;
-            padding: 20px 0;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e8491d 3px solid;
         }
-        .header h1 {
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            overflow: hidden;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
             margin: 0;
         }
-        .content {
-            width: 80%;
-            margin-top: 20px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        header .highlight, header .current a {
+            color: #e8491d;
+            font-weight: bold;
+        }
+        header a:hover {
+            color: #ffffff;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Bem-vindo à Homepage da ONG</h1>
-    </div>
-    <div class="content">
-        <!-- Conteúdo da homepage aqui -->
-        <p>Esta é a página inicial da ONG. Aqui você pode adicionar informações relevantes para as ONGs, como notícias, atualizações de projetos, links para doações, etc.</p>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>{{ ong.nome }}</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="current"><a href="#">Home</a></li>                    
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Informações da ONG</h2>
+        <p><strong>Nome:</strong> {{ ong.nome }}</p>
+        <p><strong>Username:</strong> {{ ong.username }}</p>
+        <p><strong>CNPJ:</strong> {{ ong.cnpj }}</p>
+        <p><strong>Telefone:</strong> {{ ong.telefone }}</p>
+        <p><strong>Email:</strong> {{ ong.email }}</p>
+        <p><strong>Categoria:</strong> {{ ong.categoria }}</p>
+        <p><strong>Descrição:</strong> {{ ong.descricao }}</p>
+        <p><strong>Endereço:</strong> {{ ong.rua }}, {{ ong.numero }} - {{ ong.complemento }}, {{ ong.bairro }}, {{ ong.cidade }} - {{ ong.estado }}</p>
+        <p><strong>CEP:</strong> {{ ong.cep }}</p>
     </div>
 </body>
 </html>
