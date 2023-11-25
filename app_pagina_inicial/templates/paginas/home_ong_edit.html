@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edição de Informações</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        input, textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #003f8a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edição de Informações</h2>
+        <form action="{% url 'atualizar_infos_doador' username=doador.username %}" method="post">
+            {% csrf_token %}
+            <label for="nome">
+                Nome:
+                <input type="text" id="nome" name="nome" disabled>
+                <button type="button" onclick="enableEdit('nome')">Editar</button>
+            </label>
+
+            <label for="usuario">
+                Usuário:
+                <input type="text" id="usuario" name="usuario" disabled>
+            </label>
+
+            <label for="senha">
+                Senha:
+                <input type="password" id="senha" name="senha" disabled>
+                <button type="button" onclick="enableEdit('senha')">Editar</button>
+            </label>
+
+            <label for="cnpj">
+                cnpj:
+                <input type="text" id="cnpj" name="cnpj" disabled>
+            </label>
+
+            <label for="email">
+                E-mail:
+                <input type="email" id="email" name="email" disabled>
+                <button type="button" onclick="enableEdit('email')">Editar</button>
+            </label>
+
+            <label for="telefone">
+                Telefone:
+                <input type="tel" id="telefone" name="telefone" disabled>
+                <button type="button" onclick="enableEdit('telefone')">Editar</button>
+            </label>
+
+            <label for="categoria">
+                Categoria:
+                <input type="text" id="categoria" name="categoria" disabled>
+                <button type="button" onclick="enableEdit('categoria')">Editar</button>
+            </label>
+
+            <label for="descricao">
+                Descrição:
+                <textarea id="descricao" name="descricao" rows="4" disabled></textarea>
+                <button type="button" onclick="enableEdit('descricao')">Editar</button>
+            </label>
+
+            <label for="rua">
+                Rua:
+                <input type="text" id="rua" name="rua" disabled>
+                <button type="button" onclick="enableEdit('rua')">Editar</button>
+            </label>
+
+            <label for="numero">
+                Número:
+                <input type="text" id="numero" name="numero" disabled>
+                <button type="button" onclick="enableEdit('numero')">Editar</button>
+            </label>
+
+            <label for="complemento">
+                Complemento:
+                <input type="text" id="complemento" name="complemento" disabled>
+                <button type="button" onclick="enableEdit('complemento')">Editar</button>
+            </label>
+
+            <label for="bairro">
+                Bairro:
+                <input type="text" id="bairro" name="bairro" disabled>
+                <button type="button" onclick="enableEdit('bairro')">Editar</button>
+            </label>
+
+            <label for="cidade">
+                Cidade:
+                <input type="text" id="cidade" name="cidade" disabled>
+                <button type="button" onclick="enableEdit('cidade')">Editar</button>
+            </label>
+
+            <label for="estado">
+                Estado:
+                <input type="text" id="estado" name="estado" disabled>
+                <button type="button" onclick="enableEdit('estado')">Editar</button>
+            </label>
+
+            <label for="cep">
+                CEP:
+                <input type="text" id="cep" name="cep" disabled>
+                <button type="button" onclick="enableEdit('cep')">Editar</button>
+            </label>
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('nome').value = '{{ ong.nome }}';
+                document.getElementById('usuario').value = '{{ ong.username }}';
+                document.getElementById('senha').value = '{{ ong.senha }}';
+                document.getElementById('cnpj').value = '{{ ong.cpnj }}';
+                document.getElementById('email').value = '{{ ong.email }}';
+                document.getElementById('telefone').value = '{{ ong.telefone }}';
+                document.getElementById('descricao').value = '{{ ong.descricao }}';
+                document.getElementById('rua').value = '{{ ong.rua }}';
+                document.getElementById('numero').value = '{{ ong.numero }}';
+                document.getElementById('complemento').value = '{{ ong.complemento }}';
+                document.getElementById('bairro').value = '{{ ong.bairro }}';
+                document.getElementById('cidade').value = '{{ ong.cidade }}';
+                document.getElementById('estado').value = '{{ ong.estado }}';
+                document.getElementById('cep').value = '{{ ong.cep }}';
+                document.getElementById('categoria').value = '{{ ong.categoria }}';
+            });
+
+        function enableEdit(fieldName) {
+            const inputField = document.getElementById(fieldName);
+            inputField.removeAttribute('disabled');
+                inputField.focus();
+        }
+
+    </script>
+</body>
+</html>
