@@ -63,7 +63,8 @@
 <body>
     <div class="container">
         <h2>Edição de Informações</h2>
-        <form action="#" method="post">
+        <form action="{% url 'atualizar_infos_doador' username=doador.username %}" method="post">
+            {% csrf_token %}
             <label for="nome">
                 Nome:
                 <input type="text" id="nome" name="nome" disabled>
@@ -73,7 +74,6 @@
             <label for="usuario">
                 Usuário:
                 <input type="text" id="usuario" name="usuario" disabled>
-                <button type="button" onclick="enableEdit('usuario')">Editar</button>
             </label>
 
             <label for="senha">
@@ -97,12 +97,6 @@
                 Telefone:
                 <input type="tel" id="telefone" name="telefone" disabled>
                 <button type="button" onclick="enableEdit('telefone')">Editar</button>
-            </label>
-
-            <label for="nascimento">
-                Data de Nascimento:
-                <input type="date" id="nascimento" name="nascimento" disabled>
-                <button type="button" onclick="enableEdit('nascimento')">Editar</button>
             </label>
 
             <label for="descricao">
@@ -172,7 +166,6 @@
                 document.getElementById('cpf').value = '{{ doador.cpf }}';
                 document.getElementById('email').value = '{{ doador.email }}';
                 document.getElementById('telefone').value = '{{ doador.telefone }}';
-                document.getElementById('nascimento').value = '{{ doador.nascimento }}';
                 document.getElementById('descricao').value = '{{ doador.descricao }}';
                 document.getElementById('rua').value = '{{ doador.rua }}';
                 document.getElementById('numero').value = '{{ doador.numero }}';
