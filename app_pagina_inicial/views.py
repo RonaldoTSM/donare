@@ -9,3 +9,8 @@ def home_ong(request, username):
 def home_doador(request, username):
     doador = Cadastro.objects.get(username=username)
     return render(request, 'paginas/home_doador.html', {'doador': doador})
+
+def edit_doador(request, username):
+    doador = Cadastro.objects.get(username=username)
+    print(doador.__dict__)
+    return render(request, 'paginas/home_doador_edit.html', {'doador': doador})
