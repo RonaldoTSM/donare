@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from app_criar_perfil_ong.models import CadastroOng
 from app_criar_perfil_doador.models import Cadastro
+from app_criar_perfil_ong.models import DadosBancariosOng
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -19,7 +20,34 @@ def edit_doador(request, username):
 
 def edit_ong(request, username):
     ong = get_object_or_404(CadastroOng, username=username)
-    return render(request, 'paginas/home_ong.html', {'ong': ong})
+    return render(request, 'paginas/home_ong_edit.html', {'ong': ong})
+
+def edit_banco(request, username):
+    dadosBancarios = get_object_or_404(DadosBancariosOng, ong_user=username)
+    return render(request, 'paginas/home_ong_edit_banco.html', {'dadosBancarios': dadosBancarios})
+
+def atualizar_infos_banco(request, username):
+    if request.method == 'POST':
+        dadosBancarios = get_object_or_404(DadosBancariosOng, ong_user=username)
+
+        dadosBancarios.nome_titular = request.POST.get('nome_titular') if request.POST.get('nome_titular') else dadosBancarios.nome_titular
+        dadosBancarios.conta = request.POST.get('conta') if request.POST.get('conta') else dadosBancarios.conta
+        dadosBancarios.agencia = request.POST.get('agencia') if request.POST.get('agencia') else dadosBancarios.agencia
+        dadosBancarios.banco = request.POST.get('banco') if request.POST.get('banco') else dadosBancarios.banco
+        dadosBancarios.tipoConta = request.POST.get('tipoConta') if request.POST.get('tipoConta') else dadosBancarios.tipoConta
+        dadosBancarios.cidade = request.POST.get('cidade') if request.POST.get('cidade') else dadosBancarios.cidade
+        dadosBancarios.estado = request.POST.get('estado') if request.POST.get('estado') else dadosBancarios.estado
+        dadosBancarios.pix = request.POST.get('pix') if request.POST.get('pix') else dadosBancarios.pix
+        dadosBancarios.obs = request.POST.get('obs') if request.POST.get('obs') else dadosBancarios.obs
+
+        if any([request.POST.get(field) for field in ['nome_titular', 'conta', 'agencia', 'banco', 'tipoConta', 'cidade', 'estado', 'pix', 'obs']]):
+            dadosBancarios.save()
+
+        # Redirecione para a página de visualização do perfil do doador
+        return HttpResponseRedirect(reverse('home_ong', args=[username]))
+
+    # Se a requisição não for POST, apenas redirecione para a página de visualização do perfil do doador
+    return HttpResponseRedirect(reverse('home_ongr', args=[username]))
 
 def atualizar_infos_ong(request, username):
     if request.method == 'POST':
@@ -38,7 +66,7 @@ def atualizar_infos_ong(request, username):
         ong.cidade = request.POST.get('cidade') if request.POST.get('cidade') else ong.cidade
         ong.estado = request.POST.get('estado') if request.POST.get('estado') else ong.estado
         ong.cep = request.POST.get('cep') if request.POST.get('cep') else ong.cep
-        ong.interesses = request.POST.get('categoria') if request.POST.get('categoria') else ong.interesses
+        ong.categoria = request.POST.get('categoria') if request.POST.get('categoria') else ong.categoria
 
         # Salve as alterações apenas se pelo menos um campo foi atualizado
         if any([request.POST.get(field) for field in ['nome', 'usuario', 'senha', 'email', 'telefone', 'nascimento', 'descricao', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep', 'categoria']]):
