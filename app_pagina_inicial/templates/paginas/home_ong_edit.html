@@ -63,7 +63,7 @@
 <body>
     <div class="container">
         <h2>Edição de Informações</h2>
-        <form action="{% url 'atualizar_infos_doador' username=doador.username %}" method="post">
+        <form action="{% url 'atualizar_infos_ong' username=ong.username %}" method="post">
             {% csrf_token %}
             <label for="nome">
                 Nome:
@@ -82,9 +82,9 @@
                 <button type="button" onclick="enableEdit('senha')">Editar</button>
             </label>
 
-            <label for="cpf">
-                CPF:
-                <input type="text" id="cpf" name="cpf" disabled>
+            <label for="cnpj">
+                cnpj:
+                <input type="text" id="cnpj" name="cnpj" disabled>
             </label>
 
             <label for="email">
@@ -97,6 +97,12 @@
                 Telefone:
                 <input type="tel" id="telefone" name="telefone" disabled>
                 <button type="button" onclick="enableEdit('telefone')">Editar</button>
+            </label>
+
+            <label for="categoria">
+                Categoria:
+                <input type="text" id="categoria" name="categoria" disabled>
+                <button type="button" onclick="enableEdit('categoria')">Editar</button>
             </label>
 
             <label for="descricao">
@@ -147,12 +153,6 @@
                 <button type="button" onclick="enableEdit('cep')">Editar</button>
             </label>
 
-            <label for="interesses">
-                Interesses:
-                <input type="text" id="interesses" name="interesses" disabled>
-                <button type="button" onclick="enableEdit('interesses')">Editar</button>
-            </label>
-
             <button type="submit">Salvar Alterações</button>
         </form>
     </div>
@@ -160,21 +160,21 @@
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById('nome').value = '{{ doador.Nome }}';
-                document.getElementById('usuario').value = '{{ doador.username }}';
-                document.getElementById('senha').value = '{{ doador.senha }}';
-                document.getElementById('cpf').value = '{{ doador.cpf }}';
-                document.getElementById('email').value = '{{ doador.email }}';
-                document.getElementById('telefone').value = '{{ doador.telefone }}';
-                document.getElementById('descricao').value = '{{ doador.descricao }}';
-                document.getElementById('rua').value = '{{ doador.rua }}';
-                document.getElementById('numero').value = '{{ doador.numero }}';
-                document.getElementById('complemento').value = '{{ doador.complemento }}';
-                document.getElementById('bairro').value = '{{ doador.bairro }}';
-                document.getElementById('cidade').value = '{{ doador.cidade }}';
-                document.getElementById('estado').value = '{{ doador.estado }}';
-                document.getElementById('cep').value = '{{ doador.cep }}';
-                document.getElementById('interesses').value = '{{ doador.interesses }}';
+                document.getElementById('nome').value = '{{ ong.nome }}';
+                document.getElementById('usuario').value = '{{ ong.username }}';
+                document.getElementById('senha').value = '{{ ong.senha }}';
+                document.getElementById('cnpj').value = '{{ ong.cpnj }}';
+                document.getElementById('email').value = '{{ ong.email }}';
+                document.getElementById('telefone').value = '{{ ong.telefone }}';
+                document.getElementById('descricao').value = '{{ ong.descricao }}';
+                document.getElementById('rua').value = '{{ ong.rua }}';
+                document.getElementById('numero').value = '{{ ong.numero }}';
+                document.getElementById('complemento').value = '{{ ong.complemento }}';
+                document.getElementById('bairro').value = '{{ ong.bairro }}';
+                document.getElementById('cidade').value = '{{ ong.cidade }}';
+                document.getElementById('estado').value = '{{ ong.estado }}';
+                document.getElementById('cep').value = '{{ ong.cep }}';
+                document.getElementById('categoria').value = '{{ ong.categoria }}';
             });
 
         function enableEdit(fieldName) {

@@ -32,7 +32,12 @@ urlpatterns = [
     path('cadastro_ong/dados_bancarios/', criar_ong_views.dados_bancarios_ong, name='dados_bancarios_ong'),
     path('login/', login_views.login, name='login'),    
     path('doador/<str:username>/', home_views.home_doador, name='home_doador'),    
+    path('doador/<str:username>/edit', home_views.edit_doador, name="editar_infos_doador"),
+    path('doador/<str:username>/atualizar', home_views.atualizar_infos_doador, name="atualizar_infos_doador"),
     path('ong/<str:username>/', home_views.home_ong, name='home_ong'),
-    path('doador/<str:username>/edit', home_views.edit_doador, name="editar_infos_doador"),    
+    path('ong/<str:username>/edit', home_views.edit_ong , name="editar_infos_ong"),
+    path('ong/<str:username>/atualizar', home_views.atualizar_infos_ong, name="atualizar_infos_ong"),
+    path('ong/<str:username>/edit/banco', home_views.edit_banco, name="editar_infos_banco"),
+    path('ong/<str:username>/atualizar/banco', home_views.atualizar_infos_banco, name="atualizar_infos_banco"),  
     path('doador/adicionar_publicacao/', home_views.adicionar_publicacao, name='adicionar_publicacao'),
     ]
