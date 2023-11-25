@@ -86,6 +86,16 @@
         button#editBanco:hover {
             background: #e8491d;
         }
+        #formPublicacao {
+            margin-top: 20px;
+        }
+        .publicacao {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -118,6 +128,29 @@
 
         <button id="editBanco">Editar Informações Bancárias</button>
 
+
+        <!-- Formulário para adicionar nova publicação -->
+        <h2>Adicionar Nova Publicação</h2>
+        <form id="formPublicacao" action="{% url 'adicionar_publicacao' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="titulo" placeholder="Título da Publicação"><br>
+            <textarea name="descricao" placeholder="Descrição da Publicação"></textarea><br>
+            <button type="submit">Publicar</button>
+        </form>
+
+        <!-- Feed de Publicações -->
+        <h2>Feed de Publicações</h2>
+        <div id="feedPublicacoes">
+            {% for publicacao in ong.publicacoes.all %}
+                <div class="publicacao">
+                    <h3>{{ publicacao.titulo }}</h3>
+                    <p>{{ publicacao.descricao }}</p>
+                    <small>Publicado em: {{ publicacao.data_publicacao }}</small>
+                </div>
+            {% empty %}
+                <p>Nenhuma publicação encontrada.</p>
+            {% endfor %}
+        </div>
     </div>
     <script>
         document.getElementById('editProfile').addEventListener('click', function() {
