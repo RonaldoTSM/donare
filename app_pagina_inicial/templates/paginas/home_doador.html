@@ -8,11 +8,13 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
         .container {
             width: 80%;
             margin: auto;
             overflow: hidden;
+            padding: 20px;
         }
         header {
             background: #50b3a2;
@@ -56,13 +58,28 @@
             color: #ffffff;
             font-weight: bold;
         }
+        button#editProfile {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            margin: 20px 0;
+            background: #50b3a2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button#editProfile:hover {
+            background: #e8491d;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <div id="branding">
-                <h1>{{ doador.Nome }}</h1>
+                <h1>Bem Vindo, {{ doador.Nome }}</h1>
             </div>
             <nav>
                 <ul>
@@ -84,6 +101,14 @@
         <p><strong>Endereço:</strong> {{ doador.rua }}, {{ doador.numero }} - {{ doador.complemento }}, {{ doador.bairro }}, {{ doador.cidade }} - {{ doador.estado }}</p>
         <p><strong>CEP:</strong> {{ doador.cep }}</p>
         <p><strong>Interesses:</strong> {{ doador.interesses }}</p>
+        
+        <button id="editProfile">Editar Perfil</button>
     </div>
+
+    <script>
+        document.getElementById('editProfile').addEventListener('click', function() {
+            window.location.href = 'doador/edit/' + '{{ doador.username }}' + '/';
+        });
+    </script>
 </body>
 </html>
