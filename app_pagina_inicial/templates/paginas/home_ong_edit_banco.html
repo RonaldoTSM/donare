@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edição de Informações</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        input, textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #003f8a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edição de Informações</h2>
+        <form action="{% url 'atualizar_infos_banco' username=dadosBancarios.ong_user %}" method="post">
+            {% csrf_token %}
+            <label for="usuario">
+                Usuário:
+                <input type="text" id="usuario" name="usuario" disabled>
+            </label>
+
+            <label for="nome_titular">
+                Nome do Titular:
+                <input type="text" id="nome_titular" name="nome_titular" disabled>
+                <button type="button" onclick="enableEdit('nome_titular')">Editar</button>
+            </label>
+
+            <label for="conta">
+                Conta:
+                <input type="text" id="conta" name="conta" disabled>
+                <button type="button" onclick="enableEdit('conta')">Editar</button>
+            </label>
+
+            <label for="agencia">
+                Agencia:
+                <input type="text" id="agencia" name="agencia" disabled>
+                <button type="button" onclick="enableEdit('agencia')">Editar</button>
+            </label>
+
+            <label for="banco">
+                Banco:
+                <input type="text" id="banco" name="banco" disabled>
+                <button type="button" onclick="enableEdit('banco')">Editar</button>
+            </label>
+
+            <label for="tipoConta">
+                Tipo da Conta:
+                <input type="text" id="tipoConta" name="tipoConta" disabled>
+                <button type="button" onclick="enableEdit('tipoConta')">Editar</button>
+            </label>
+
+            <label for="obs">
+                Observação:
+                <textarea id="obs" name="obs" rows="4" disabled></textarea>
+                <button type="button" onclick="enableEdit('obs')">Editar</button>
+            </label>
+
+            <label for="cidade">
+                Cidade:
+                <input type="text" id="cidade" name="cidade" disabled>
+                <button type="button" onclick="enableEdit('cidade')">Editar</button>
+            </label>
+
+            <label for="estado">
+                Estado:
+                <input type="text" id="estado" name="estado" disabled>
+                <button type="button" onclick="enableEdit('estado')">Editar</button>
+            </label>
+
+            <label for="pix">
+                PIX:
+                <input type="text" id="pix" name="pix" disabled>
+                <button type="button" onclick="enableEdit('pix')">Editar</button>
+            </label>
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('usuario').value = '{{ dadosBancarios.ong_user }}';
+                document.getElementById('nome_titular').value = '{{ dadosBancarios.nome_titular }}';
+                document.getElementById('conta').value = '{{ dadosBancarios.conta }}';
+                document.getElementById('agencia').value = '{{ dadosBancarios.agencia }}';
+                document.getElementById('banco').value = '{{ dadosBancarios.banco }}';
+                document.getElementById('tipoConta').value = '{{ dadosBancarios.tipoConta }}';
+                document.getElementById('cidade').value = '{{ dadosBancarios.cidade }}';
+                document.getElementById('estado').value = '{{ dadosBancarios.estado }}';
+                document.getElementById('pix').value = '{{ dadosBancarios.pix }}';
+                document.getElementById('obs').value = '{{ dadosBancarios.obs }}';
+            });
+
+        function enableEdit(fieldName) {
+            const inputField = document.getElementById(fieldName);
+            inputField.removeAttribute('disabled');
+                inputField.focus();
+        }
+
+    </script>
+</body>
+</html>

@@ -56,6 +56,36 @@
             color: #ffffff;
             font-weight: bold;
         }
+        button#editProfile {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            margin: 20px 0;
+            background: #50b3a2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button#editProfile:hover {
+            background: #e8491d;
+        }
+        button#editBanco {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            margin: 20px 0;
+            background: #50b3a2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button#editBanco:hover {
+            background: #e8491d;
+        }
     </style>
 </head>
 <body>
@@ -83,10 +113,18 @@
         <p><strong>Descrição:</strong> {{ ong.descricao }}</p>
         <p><strong>Endereço:</strong> {{ ong.rua }}, {{ ong.numero }} - {{ ong.complemento }}, {{ ong.bairro }}, {{ ong.cidade }} - {{ ong.estado }}</p>
         <p><strong>CEP:</strong> {{ ong.cep }}</p>
+
+        <button id="editProfile">Editar Perfil</button>
+
+        <button id="editBanco">Editar Informações Bancárias</button>
+
     </div>
     <script>
         document.getElementById('editProfile').addEventListener('click', function() {
-            window.location.href = '{% url "editar_infos_ong" doador.username %}';
+            window.location.href = '{% url "editar_infos_ong" ong.username %}';
+        });
+        document.getElementById('editBanco').addEventListener('click', function() {
+            window.location.href = '{% url "editar_infos_banco" ong.username %}';
         });
     </script>
 </body>

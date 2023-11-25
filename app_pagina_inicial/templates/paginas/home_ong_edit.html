@@ -63,7 +63,7 @@
 <body>
     <div class="container">
         <h2>Edição de Informações</h2>
-        <form action="{% url 'atualizar_infos_doador' username=doador.username %}" method="post">
+        <form action="{% url 'atualizar_infos_ong' username=ong.username %}" method="post">
             {% csrf_token %}
             <label for="nome">
                 Nome:
