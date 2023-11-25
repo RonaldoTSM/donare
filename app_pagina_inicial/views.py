@@ -54,7 +54,7 @@ def atualizar_infos_ong(request, username):
         ong = get_object_or_404(CadastroOng, username=username)
 
         # Atualize os campos do modelo com os dados do formulário
-        ong.nome = request.POST.get('nome') if request.POST.get('nome') else ong.Nome
+        ong.nome = request.POST.get('nome') if request.POST.get('nome') else ong.nome
         ong.senha = request.POST.get('senha') if request.POST.get('senha') else ong.senha
         ong.email = request.POST.get('email') if request.POST.get('email') else ong.email
         ong.telefone = request.POST.get('telefone') if request.POST.get('telefone') else ong.telefone
