@@ -84,5 +84,10 @@
         <p><strong>Endereço:</strong> {{ ong.rua }}, {{ ong.numero }} - {{ ong.complemento }}, {{ ong.bairro }}, {{ ong.cidade }} - {{ ong.estado }}</p>
         <p><strong>CEP:</strong> {{ ong.cep }}</p>
     </div>
+    <script>
+        document.getElementById('editProfile').addEventListener('click', function() {
+            window.location.href = '{% url "editar_infos_ong" doador.username %}';
+        });
+    </script>
 </body>
 </html>
