@@ -107,7 +107,7 @@
 
     <script>
         document.getElementById('editProfile').addEventListener('click', function() {
-            window.location.href = 'doador/edit/' + '{{ doador.username }}' + '/';
+            window.location.href = '{% url "editar_infos_doador" doador.username %}';
         });
     </script>
 </body>
