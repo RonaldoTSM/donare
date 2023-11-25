@@ -2,10 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from app_criar_perfil_ong.models import CadastroOng
 from app_criar_perfil_doador.models import Cadastro
 from app_criar_perfil_ong.models import DadosBancariosOng
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import PublicacaoForm
 from .models import Publicacao
+
 
 def home_ong(request, username):
     ong = get_object_or_404(CadastroOng, username=username)
@@ -19,20 +21,23 @@ def edit_doador(request, username):
     doador = Cadastro.objects.get(username=username)    
     return render(request, 'paginas/home_doador_edit.html', {'doador': doador})
 
-def adicionar_publicacao(request):
-    sucesso = False
+def adicionar_publicacao(request, username):
+    usuario = get_object_or_404(CadastroOng, username=username)
+
     if request.method == 'POST':
         form = PublicacaoForm(request.POST)
         if form.is_valid():
             publicacao = form.save(commit=False)
-            publicacao.autor = request.user.cadastro  # Ajuste conforme sua associação de usuário
+            publicacao.autor = usuario
             publicacao.save()
-            sucesso = True
-            form = PublicacaoForm()  # Reiniciar o formulário após o sucesso
+
+            messages.success(request, "Publicação criada com sucesso!")
+            return HttpResponseRedirect(reverse('home_ong', kwargs={'username': username}))  
+    
     else:
         form = PublicacaoForm()
-    return render(request, 'publicacao/adicionar_publicacao.html', {'form': form, 'sucesso': sucesso})
 
+    return render(request, 'template_adicionar_publicacao.html', {'form': form, 'usuario': usuario})
 
 def edit_ong(request, username):
     ong = get_object_or_404(CadastroOng, username=username)

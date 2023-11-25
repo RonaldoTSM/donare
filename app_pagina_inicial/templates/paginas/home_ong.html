@@ -125,13 +125,11 @@
         <p><strong>CEP:</strong> {{ ong.cep }}</p>
 
         <button id="editProfile">Editar Perfil</button>
-
         <button id="editBanco">Editar Informações Bancárias</button>
-
 
         <!-- Formulário para adicionar nova publicação -->
         <h2>Adicionar Nova Publicação</h2>
-        <form id="formPublicacao" action="{% url 'adicionar_publicacao' %}" method="post">
+        <form id="formPublicacao" action="{% url 'adicionar_publicacao' username=ong.username %}" method="post">
             {% csrf_token %}
             <input type="text" name="titulo" placeholder="Título da Publicação"><br>
             <textarea name="descricao" placeholder="Descrição da Publicação"></textarea><br>
@@ -152,6 +150,7 @@
             {% endfor %}
         </div>
     </div>
+
     <script>
         document.getElementById('editProfile').addEventListener('click', function() {
             window.location.href = '{% url "editar_infos_ong" ong.username %}';
@@ -159,6 +158,17 @@
         document.getElementById('editBanco').addEventListener('click', function() {
             window.location.href = '{% url "editar_infos_banco" ong.username %}';
         });
+
+        // Verifica se a URL da página possui um parâmetro 'success'
+        const urlParams = new URLSearchParams(window.location.search);
+        const isSuccess = urlParams.has('success');
+
+        // Se 'success' estiver presente na URL, recarrega a página após 2 segundos
+        if (isSuccess) {
+            setTimeout(function() {
+                location.reload();
+            }, 2000);  // 2000 milissegundos (2 segundos)
+        }
     </script>
 </body>
 </html>

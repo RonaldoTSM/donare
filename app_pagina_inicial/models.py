@@ -1,8 +1,8 @@
 from django.db import models
-from app_criar_perfil_doador.models import Cadastro  
+from app_criar_perfil_ong.models import CadastroOng  
 
 class Publicacao(models.Model):
-    autor = models.ForeignKey(Cadastro, on_delete=models.CASCADE, related_name='publicacoes')
+    autor = models.ForeignKey(CadastroOng, on_delete=models.CASCADE, related_name='publicacoes')
     titulo = models.CharField(max_length=200)
     descricao = models.TextField()
     data_publicacao = models.DateTimeField(auto_now_add=True)
