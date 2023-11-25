@@ -33,5 +33,6 @@ urlpatterns = [
     path('login/', login_views.login, name='login'),    
     path('doador/<str:username>/', home_views.home_doador, name='home_doador'),    
     path('ong/<str:username>/', home_views.home_ong, name='home_ong'),
-    path('doador/<str:username>/edit', home_views.edit_doador, name="editar_infos_doador")
-]
+    path('doador/<str:username>/edit', home_views.edit_doador, name="editar_infos_doador"),    
+    path('doador/adicionar_publicacao/', home_views.adicionar_publicacao, name='adicionar_publicacao'),
+    ]
