@@ -18,7 +18,7 @@
             margin-bottom: 10px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }    
+        }       
         header {
             background: #50b3a2;
             color: white;
@@ -58,7 +58,6 @@
                 padding: 20px;
             }
         }
-        
     </style>
 </head>
 <body>
@@ -98,25 +97,56 @@
                 <button id="editProfile" class="btn btn-primary">Editar Perfil</button>
             </div>
 
-            <!-- Coluna central para publicações das ONGs -->
+            <!-- Coluna central para publicações das ONGs e ONGs do interesse do usuário -->
             <div class="col-md-6 center-column">
                 <!-- Feed de Publicações -->
-            <h2>Feed de Publicações</h2>
-            <div id="feedPublicacoes">
-                {% for publicacao in publicacoes %}
-                    <div class="publicacao">
-                        <h3>{{ publicacao.titulo }}</h3>
-                        <p>{{ publicacao.descricao }}</p>
-                        <small>Publicado por: {{ publicacao.autor.username }}</small><br>
-                        <small>Publicado em: {{ publicacao.data_publicacao }}</small>
-                    </div>
-                {% empty %}
-                    <p>Nenhuma publicação encontrada.</p>
-                {% endfor %}
+                <h2>Feed de Publicações</h2>
+                <div id="feedPublicacoes">
+                    {% for publicacao in publicacoes %}
+                        <div class="publicacao">
+                            <h3>{{ publicacao.titulo }}</h3>
+                            <p>{{ publicacao.descricao }}</p>
+                            <small>Publicado por: {{ publicacao.autor.username }}</small><br>
+                            <small>Publicado em: {{ publicacao.data_publicacao }}</small>
+                        </div>
+                    {% empty %}
+                        <p>Nenhuma publicação encontrada.</p>
+                    {% endfor %}
+                </div>
+
+                <!-- ONGs do seu interesse -->
             </div>
 
-            <!-- Coluna da direita para manter o layout alinhado -->
+            <!-- Coluna da direita para manter o layout alinhado-->
             <div class="col-md-3">
+
+                <h2>ONGs do seu interesse</h2>
+                <div id="feedOngsInteresse">
+                    {% for ong in ongs_interesses %}
+                        <div class="publicacao">
+                            <h3>{{ ong.nome }}</h3>
+                            <p>{{ ong.descricao }}</p>
+                            <small>Categoria: {{ ong.categoria }}</small><br>
+                            <button class="btn btn-primary" onclick="openDonationPopup(ong.nome)">Doar</button>
+                        </div>
+                    {% empty %}
+                        <p>Nenhuma ONG encontrada.</p>
+                    {% endfor %}
+                </div>
+
+                <h2>Todas as ONGs</h2>
+                <div id="feedOngs">
+                    {% for ong in ongs %}
+                        <div class="publicacao">
+                            <h3>{{ ong.nome }}</h3>
+                            <p>{{ ong.descricao }}</p>
+                            <small>Categoria: {{ ong.categoria }}</small><br>
+                            <button class="btn btn-primary" onclick="openDonationPopup(ong.nome)">Doar</button>
+                        </div>
+                    {% empty %}
+                        <p>Nenhuma ONG encontrada.</p>
+                    {% endfor %}
+                </div>
                 <!-- Espaço em branco por enquanto -->
             </div>
         </div>

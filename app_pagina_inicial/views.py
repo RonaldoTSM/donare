@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import PublicacaoForm
 from .models import Publicacao
+from django.db.models import Q
 
 
 def home_ong(request, username):
@@ -15,9 +16,14 @@ def home_ong(request, username):
 
 def home_doador(request, username):
     doador = get_object_or_404(Cadastro, username=username)
-    publicacoes = Publicacao.objects.all().order_by('-data_publicacao')  
+    publicacoes = Publicacao.objects.all().order_by('-data_publicacao') 
+    ongs = CadastroOng.objects.all()
+    interesses_usuario = doador.interesses.split(',')
+    ongs_interesses = CadastroOng.objects.filter(
+    Q(categoria__in=interesses_usuario)
+)
 
-    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes})
+    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses})
 
 def edit_doador(request, username):
     doador = Cadastro.objects.get(username=username)    
@@ -40,10 +46,6 @@ def adicionar_publicacao(request, username):
         form = PublicacaoForm()
 
     return render(request, 'template_adicionar_publicacao.html', {'form': form, 'usuario': usuario})
-
-def feed_publicacoes(request):
-    publicacoes = Publicacao.objects.all().order_by('-data_publicacao')      
-    return render(request, 'paginas/home_doador.html', {'publicacoes': publicacoes})
     
 def edit_ong(request, username):
     ong = get_object_or_404(CadastroOng, username=username)
