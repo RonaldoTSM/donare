@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>{{ ong.nome }}</title>
+    <!-- Inclusão do CSS do Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -9,85 +11,12 @@
             margin: 0;
             padding: 0;
         }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        header {
-            background: #50b3a2;
-            color: white;
-            padding-top: 30px;
-            min-height: 70px;
-            border-bottom: #e8491d 3px solid;
-        }
-        header a {
-            color: #ffffff;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 16px;
-        }
-        header ul {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-            overflow: hidden;
-        }
-        header li {
-            float: left;
-            display: inline;
-            padding: 0 20px 0 20px;
-        }
-        header #branding {
-            float: left;
-        }
-        header #branding h1 {
-            margin: 0;
-        }
-        header nav {
-            float: right;
-            margin-top: 10px;
-        }
-        header .highlight, header .current a {
-            color: #e8491d;
-            font-weight: bold;
-        }
-        header a:hover {
-            color: #ffffff;
-            font-weight: bold;
-        }
-        button#editProfile {
-            display: block;
-            width: 200px;
+        .infoUsuario {
+            background-color: #fff;
             padding: 10px;
-            margin: 20px 0;
-            background: #50b3a2;
-            color: white;
-            border: none;
+            margin-bottom: 10px;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button#editProfile:hover {
-            background: #e8491d;
-        }
-        button#editBanco {
-            display: block;
-            width: 200px;
-            padding: 10px;
-            margin: 20px 0;
-            background: #50b3a2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button#editBanco:hover {
-            background: #e8491d;
-        }
-        #formPublicacao {
-            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .publicacao {
             background-color: #fff;
@@ -96,79 +25,135 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        /* Novos estilos para o layout modificado */
+        @media (min-width: 992px) {
+            .left-column {
+                position: fixed;
+                top: 56px; /* Ajustar de acordo com a altura do seu navbar */
+                left: 0;
+                width: 25%; /* Largura da coluna esquerda */
+                bottom: 0;
+                overflow-y: auto;
+                padding-right: 20px; /* Espaçamento direito para a scrollbar */
+            }
+            .center-column {
+                margin-left: 25%; /* Mesma largura da coluna esquerda */
+                width: 50%; /* Largura da coluna do centro */
+            }
+            .right-column {
+                position: fixed;
+                top: 56px; /* Ajustar de acordo com a altura do seu navbar */
+                right: 0;
+                width: 25%; /* Largura da coluna direita */
+                bottom: 0;
+                overflow-y: auto;
+                padding-left: 20px; /* Espaçamento esquerdo para a scrollbar */
+            }
+        }
     </style>
 </head>
 <body>
-    <header>
+    <!-- Navbar do Bootstrap -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <div id="branding">
-                <h1>{{ ong.nome }}</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li class="current"><a href="#">Home</a></li>                    
+            <a class="navbar-brand" href="#">{{ ong.nome }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">           
+                     <!-- Botão de Logout -->
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tela_inicial' %}">Logout</a>
+                    </li>
                 </ul>
-            </nav>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <div class="container">
-        <h2>Informações da ONG</h2>
-        <p><strong>Nome:</strong> {{ ong.nome }}</p>
-        <p><strong>Username:</strong> {{ ong.username }}</p>
-        <p><strong>CNPJ:</strong> {{ ong.cnpj }}</p>
-        <p><strong>Telefone:</strong> {{ ong.telefone }}</p>
-        <p><strong>Email:</strong> {{ ong.email }}</p>
-        <p><strong>Categoria:</strong> {{ ong.categoria }}</p>
-        <p><strong>Descrição:</strong> {{ ong.descricao }}</p>
-        <p><strong>Endereço:</strong> {{ ong.rua }}, {{ ong.numero }} - {{ ong.complemento }}, {{ ong.bairro }}, {{ ong.cidade }} - {{ ong.estado }}</p>
-        <p><strong>CEP:</strong> {{ ong.cep }}</p>
-
-        <button id="editProfile">Editar Perfil</button>
-        <button id="editBanco">Editar Informações Bancárias</button>
-
-        <!-- Formulário para adicionar nova publicação -->
-        <h2>Adicionar Nova Publicação</h2>
-        <form id="formPublicacao" action="{% url 'adicionar_publicacao' username=ong.username %}" method="post">
-            {% csrf_token %}
-            <input type="text" name="titulo" placeholder="Título da Publicação"><br>
-            <textarea name="descricao" placeholder="Descrição da Publicação"></textarea><br>
-            <button type="submit">Publicar</button>
-        </form>
-
-        <!-- Feed de Publicações -->
-        <h2>Feed de Publicações</h2>
-        <div id="feedPublicacoes">
-            {% for publicacao in ong.publicacoes.all %}
-                <div class="publicacao">
-                    <h3>{{ publicacao.titulo }}</h3>
-                    <p>{{ publicacao.descricao }}</p>
-                    <small>Publicado em: {{ publicacao.data_publicacao }}</small>
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Coluna esquerda para informações do perfil da ONG -->
+            <div class="left-column">
+                <div class="infoUsuario">
+                    <h2>Informações da ONG</h2>
+                    <p><strong>Nome:</strong> {{ ong.nome }}</p>
+                    <p><strong>Username:</strong> {{ ong.username }}</p>
+                    <p><strong>CNPJ:</strong> {{ ong.cnpj }}</p>
+                    <p><strong>Telefone:</strong> {{ ong.telefone }}</p>
+                    <p><strong>Email:</strong> {{ ong.email }}</p>
+                    <p><strong>Categoria:</strong> {{ ong.categoria }}</p>
+                    <p><strong>Descrição:</strong> {{ ong.descricao }}</p>
+                    <p><strong>Endereço:</strong> {{ ong.rua }}, {{ ong.numero }} - {{ ong.complemento }}, {{ ong.bairro }}, {{ ong.cidade }} - {{ ong.estado }}</p>
+                    <p><strong>CEP:</strong> {{ ong.cep }}</p>
                 </div>
-            {% empty %}
-                <p>Nenhuma publicação encontrada.</p>
-            {% endfor %}
+                <button id="editProfile" class="btn btn-primary">Editar Perfil</button>
+                <button id="editBanco" class="btn btn-secondary">Editar Informações Bancárias</button>
+            </div>
+
+            <!-- Coluna central para publicações -->
+            <div class="center-column">
+                 <!-- Formulário para adicionar nova publicação -->
+                <h2>Adicionar Nova Publicação</h2>
+                <form id="formPublicacao" action="{% url 'adicionar_publicacao' username=ong.username %}" method="post" class="mt-2">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="titulo" placeholder="Título da Publicação">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="descricao" placeholder="Descrição da Publicação"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Publicar</button>
+                </form>
+
+                <!-- Feed de Publicações -->
+                <h2 class="mt-4">Feed de Publicações</h2>
+                <div id="feedPublicacoes">
+                    {% for publicacao in ong.publicacoes.all %}
+                        <div class="publicacao">
+                            <h3>{{ publicacao.titulo }}</h3>
+                            <p>{{ publicacao.descricao }}</p>
+                            <small>Publicado em: {{ publicacao.data_publicacao }}</small>
+                        </div>
+                    {% empty %}
+                        <p>Nenhuma publicação encontrada.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+
+            <!-- Coluna direita reservada para futuras funcionalidades -->
+            <div class="right-column">
+                <!-- Espaço em branco por enquanto -->
+            </div>
         </div>
     </div>
 
-    <script>
-        document.getElementById('editProfile').addEventListener('click', function() {
-            window.location.href = '{% url "editar_infos_ong" ong.username %}';
-        });
-        document.getElementById('editBanco').addEventListener('click', function() {
-            window.location.href = '{% url "editar_infos_banco" ong.username %}';
-        });
+      <!-- Scripts do Bootstrap -->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+      <script>
+          document.getElementById('editProfile').addEventListener('click', function() {
+              window.location.href = '{% url "editar_infos_ong" ong.username %}';
+          });
+          document.getElementById('editBanco').addEventListener('click', function() {
+              window.location.href = '{% url "editar_infos_banco" ong.username %}';
+          });
+  
+          // Verifica se a URL da página possui um parâmetro 'success'
+          const urlParams = new URLSearchParams(window.location.search);
+          const isSuccess = urlParams.has('success');
+  
+          // Se 'success' estiver presente na URL, recarrega a página após 2 segundos
+          if (isSuccess) {
+              setTimeout(function() {
+                  location.reload();
+              }, 2000);  // 2000 milissegundos (2 segundos)
+          }
+      </script>
 
-        // Verifica se a URL da página possui um parâmetro 'success'
-        const urlParams = new URLSearchParams(window.location.search);
-        const isSuccess = urlParams.has('success');
-
-        // Se 'success' estiver presente na URL, recarrega a página após 2 segundos
-        if (isSuccess) {
-            setTimeout(function() {
-                location.reload();
-            }, 2000);  // 2000 milissegundos (2 segundos)
-        }
-    </script>
 </body>
-</html>
+
+  

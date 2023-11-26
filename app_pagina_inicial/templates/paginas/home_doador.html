@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>{{ doador.Nome }}</title>
+    <!-- Inclusão do CSS do Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -10,12 +12,13 @@
             padding: 0;
             line-height: 1.6;
         }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 20px;
-        }
+        .publicacao {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }    
         header {
             background: #50b3a2;
             color: white;
@@ -23,87 +26,106 @@
             min-height: 70px;
             border-bottom: #e8491d 3px solid;
         }
-        header a {
+        header a, header a:hover {
             color: #ffffff;
             text-decoration: none;
+            font-size: 16px;
+        }
+        header .navbar-nav .nav-item .nav-link {
             text-transform: uppercase;
-            font-size: 16px;
+            font-weight: bold;
         }
-        header ul {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-            overflow: hidden;
+        header .navbar-nav .nav-item .nav-link:hover {
+            font-weight: bold;
         }
-        header li {
-            float: left;
-            display: inline;
-            padding: 0 20px 0 20px;
-        }
-        header #branding {
-            float: left;
-        }
-        header #branding h1 {
-            margin: 0;
-        }
-        header nav {
-            float: right;
-            margin-top: 10px;
-        }
-        header .highlight, header .current a {
+        header .navbar-nav .nav-item.active .nav-link {
             color: #e8491d;
-            font-weight: bold;
         }
-        header a:hover {
-            color: #ffffff;
-            font-weight: bold;
+        /* Ajustes para o sistema de grid do Bootstrap */
+        @media (min-width: 992px) {
+            .left-column {
+                position: fixed;
+                top: 70px; /* Ajustar com a altura do seu navbar */
+                left: 0;
+                width: 25%;
+                bottom: 0;
+                overflow-y: auto;
+                padding: 20px;
+            }
+            .center-column {
+                margin-left: 25%;
+                width: 50%;
+                padding: 20px;
+            }
         }
-        button#editProfile {
-            display: block;
-            width: 200px;
-            padding: 10px;
-            margin: 20px 0;
-            background: #50b3a2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button#editProfile:hover {
-            background: #e8491d;
-        }
+        
     </style>
 </head>
 <body>
-    <header>
+    <!-- Navbar do Bootstrap -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <div id="branding">
-                <h1>Bem Vindo, {{ doador.Nome }}</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li class="current"><a href="#">Home</a></li>                    
+            <a class="navbar-brand" href="#">{{ doador.Nome }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tela_inicial' %}">Logout</a>
+                    </li>
                 </ul>
-            </nav>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <div class="container">
-        <h2>Informações do Cadastro</h2>
-        <p><strong>Nome:</strong> {{ doador.Nome }}</p>
-        <p><strong>Username:</strong> {{ doador.username }}</p>
-        <p><strong>CPF:</strong> {{ doador.cpf }}</p>
-        <p><strong>Email:</strong> {{ doador.email }}</p>
-        <p><strong>Telefone:</strong> {{ doador.telefone }}</p>
-        <p><strong>Data de Nascimento:</strong> {{ doador.nascimento }}</p>
-        <p><strong>Descrição:</strong> {{ doador.descricao }}</p>
-        <p><strong>Endereço:</strong> {{ doador.rua }}, {{ doador.numero }} - {{ doador.complemento }}, {{ doador.bairro }}, {{ doador.cidade }} - {{ doador.estado }}</p>
-        <p><strong>CEP:</strong> {{ doador.cep }}</p>
-        <p><strong>Interesses:</strong> {{ doador.interesses }}</p>
-        
-        <button id="editProfile">Editar Perfil</button>
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Coluna esquerda para informações do perfil do doador -->
+            <div class="left-column bg-white">
+                <h2>Informações do Doador</h2>
+                <p><strong>Nome:</strong> {{ doador.Nome }}</p>
+                <p><strong>Username:</strong> {{ doador.username }}</p>
+                <p><strong>CPF:</strong> {{ doador.cpf }}</p>
+                <p><strong>Email:</strong> {{ doador.email }}</p>
+                <p><strong>Telefone:</strong> {{ doador.telefone }}</p>
+                <p><strong>Data de Nascimento:</strong> {{ doador.nascimento }}</p>
+                <p><strong>Descrição:</strong> {{ doador.descricao }}</p>
+                <p><strong>Endereço:</strong> {{ doador.rua }}, {{ doador.numero }} - {{ doador.complemento }}, {{ doador.bairro }}, {{ doador.cidade }} - {{ doador.estado }}</p>
+                <p><strong>CEP:</strong> {{ doador.cep }}</p>
+                <p><strong>Interesses:</strong> {{ doador.interesses }}</p>               
+                
+                <button id="editProfile" class="btn btn-primary">Editar Perfil</button>
+            </div>
+
+            <!-- Coluna central para publicações das ONGs -->
+            <div class="col-md-6 center-column">
+                <!-- Feed de Publicações -->
+            <h2>Feed de Publicações</h2>
+            <div id="feedPublicacoes">
+                {% for publicacao in publicacoes %}
+                    <div class="publicacao">
+                        <h3>{{ publicacao.titulo }}</h3>
+                        <p>{{ publicacao.descricao }}</p>
+                        <small>Publicado por: {{ publicacao.autor.username }}</small><br>
+                        <small>Publicado em: {{ publicacao.data_publicacao }}</small>
+                    </div>
+                {% empty %}
+                    <p>Nenhuma publicação encontrada.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Coluna da direita para manter o layout alinhado -->
+            <div class="col-md-3">
+                <!-- Espaço em branco por enquanto -->
+            </div>
+        </div>
     </div>
+
+    <!-- Scripts do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
         document.getElementById('editProfile').addEventListener('click', function() {

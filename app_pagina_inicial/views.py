@@ -15,7 +15,9 @@ def home_ong(request, username):
 
 def home_doador(request, username):
     doador = get_object_or_404(Cadastro, username=username)
-    return render(request, 'paginas/home_doador.html', {'doador': doador})
+    publicacoes = Publicacao.objects.all().order_by('-data_publicacao')  
+
+    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes})
 
 def edit_doador(request, username):
     doador = Cadastro.objects.get(username=username)    
@@ -39,6 +41,11 @@ def adicionar_publicacao(request, username):
 
     return render(request, 'template_adicionar_publicacao.html', {'form': form, 'usuario': usuario})
 
+def feed_publicacoes(request):
+    publicacoes = Publicacao.objects.all().order_by('-data_publicacao')  
+    print(publicacoes)  # Para debugging
+    return render(request, 'paginas/home_doador.html', {'publicacoes': publicacoes})
+    
 def edit_ong(request, username):
     ong = get_object_or_404(CadastroOng, username=username)
     return render(request, 'paginas/home_ong_edit.html', {'ong': ong})
