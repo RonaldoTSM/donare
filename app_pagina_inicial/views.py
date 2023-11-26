@@ -42,8 +42,7 @@ def adicionar_publicacao(request, username):
     return render(request, 'template_adicionar_publicacao.html', {'form': form, 'usuario': usuario})
 
 def feed_publicacoes(request):
-    publicacoes = Publicacao.objects.all().order_by('-data_publicacao')  
-    print(publicacoes)  # Para debugging
+    publicacoes = Publicacao.objects.all().order_by('-data_publicacao')      
     return render(request, 'paginas/home_doador.html', {'publicacoes': publicacoes})
     
 def edit_ong(request, username):
