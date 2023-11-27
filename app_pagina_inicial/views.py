@@ -25,6 +25,12 @@ def home_doador(request, username):
         Q(categoria__in=interesses_usuario)
     )
     dadosBancarios = DadosBancariosOng.objects.all()
+
+    doador.nascimento = formatar_data_nascimento(doador.nascimento)
+    doador.telefone = formatar_telefone(doador.telefone)
+
+    print(doador.nascimento)
+
     return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses, 'dadosBancarios': dadosBancarios})
 
 def getDadosBancarios(request, ongUser):
@@ -159,3 +165,11 @@ def atualizar_infos_doador(request, username):
 
     # Se a requisição não for POST, apenas redirecione para a página de visualização do perfil do doador
     return HttpResponseRedirect(reverse('home_doador', args=[username]))
+
+def formatar_data_nascimento(nascimento):
+    # Supondo que nascimento seja uma string no formato 'YYYYMMDD'
+    return f'{nascimento[6:8]}/{nascimento[4:6]}/{nascimento[:4]}' if len(nascimento) == 8 else nascimento
+
+def formatar_telefone(telefone):
+    # Supondo que telefone seja uma string de 11 dígitos
+    return f'({telefone[:2]}) {telefone[2:7]}-{telefone[7:]}' if len(telefone) == 11 else telefone
