@@ -173,10 +173,9 @@
                             <div class="form-group">
                                 <label for="formaPagamento">Forma de Pagamento:</label>
                                 <select class="form-control" id="formaPagamento">
-                                    <option value="pix">PIX</option>
                                     <option value="credito">Crédito</option>
                                     <option value="debito">Débito</option>
-                                    <option value="deposito">Depósito Bancário</option>
+                                    <option value="deposito">Depósito Bancário ou PIX</option>
                                 </select>
                             </div>
                         </div>
@@ -188,6 +187,90 @@
                 </div>
             </div>
             
+            <!-- Modal de depósito -->
+            <div class="modal fade" id="depositoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirmação de Depósito</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Display the ONG user and donation details -->
+                            <p>ONG: <span id="ongUserDepositModal"></span></p>
+                            <p>Valor da Doação: <span id="valorDoacaoDepositModal" aria-placeholder="R$"></span></p>
+            
+                            <!-- Display fields for deposit information -->
+                            <div class="form-group">
+                                <label for="nomeTitular">Nome do Titular:</label>
+                                <p id="nomeTitular"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="conta">Número da Conta:</label>
+                                <p id="conta"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="agencia">Número da Agência:</label>
+                                <p id="agencia"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="banco">Banco:</label>
+                                <p id="banco"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="tipoConta">Tipo de Conta:</label>
+                                <p id="tipoConta"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="pix">Chave PIX:</label>
+                                <p id="pix"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="obs">Observações:</label>
+                                <p id="obs"></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" onclick="confirmarDeposito()">Confirmar Pagamento</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           <!-- Modal de Agradecimento -->
+            <!-- Modal de Agradecimento -->
+            <div class="modal fade" id="agradecimentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agradecimento pela Doação</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Obrigado por sua generosa doação de <span id="valorAgradecimentoModal"></span>!</p>
+                            <p>Gostaria de compartilhar sua boa ação com amigos?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            
+                            <!-- Botão para compartilhar no WhatsApp -->
+                            <button type="button" class="btn btn-success" onclick="shareOnWhatsApp()">Compartilhar no WhatsApp</button>
+                            
+                            <!-- Botão para compartilhar no Facebook -->
+                            <button type="button" class="btn btn-primary" onclick="shareOnFacebook()">Compartilhar no Facebook</button>
+                            
+                            <!-- Botão para compartilhar no "X" (substitua com a lógica real) -->
+                            <button type="button" class="btn btn-info" onclick="shareOnX()">Compartilhar no X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -206,36 +289,137 @@
             document.getElementById('ongNomeModal').innerText = ongNome;
             document.getElementById('ongUser').value = ongUser;
 
+            sharedOngName = ongNome;
 
             // Exibir o modal padrão
             $('#doacaoModal').modal('show');
             // Limpar o valor do input quando o modal é aberto
-            document.getElementById('valorDoacao').value = 'R$ 0,00';
+            document.getElementById('valorDoacao').value = '';
         }
-
-        function formatarValorInput() {
-            var inputValor = document.getElementById('valorDoacao');
-            var valorDigitado = inputValor.value;
-
-            // Remover todos os caracteres não numéricos
-            var valorNumerico = parseFloat(valorDigitado.replace(/[^\d]/g, '')) / 100 || 0;
-
-            // Formatar o valor com duas casas decimais e adicionar "R$ "
-            inputValor.value = 'R$ ' + valorNumerico.toFixed(2);
-        }
-
-        // Adicionar um ouvinte de eventos para o evento 'input' no input de valor
-        document.getElementById('valorDoacao').addEventListener('input', formatarValorInput);
 
         function confirmarDoacao() {
             var ongNome = document.getElementById('ongNomeModal').innerText;
             var ongUser = document.getElementById('ongUser').value;
             var formaPagamento = document.getElementById('formaPagamento').value;
-            var valorDoacao = parseFloat(document.getElementById('valorDoacao').value.replace(/[^\d.]/g, '')) / 100 || 0;
+            var valorDoacao = document.getElementById('valorDoacao').value;
 
             $('#doacaoModal').modal('hide');
+
+            // Check if the selected payment method is "Depósito Bancário"
+            if (formaPagamento === 'deposito') {
+                // Open another modal for deposit confirmation
+                openDepositoModal(ongNome, ongUser, valorDoacao);
+            } else {
+                // Handle other payment methods or perform the donation directly
+                performDoacao(ongNome, ongUser, valorDoacao, formaPagamento);
+                // Exibir o modal de agradecimento
+                $('#agradecimentoModal').modal('show');
+
+                // Preencher o valor da doação no modal de agradecimento
+                document.getElementById('valorAgradecimentoModal').innerText = ` R$ ${valorDoacao}`;
+            }
         }
 
+        function openDepositoModal(ongNome, ongUser, valorDoacao) {
+            console.log('Abrindo modal de depósito para:', ongNome);
+            console.log(valorDoacao)
+            obterDadosBancariosOng(ongUser)
+            // Formatar o valor da doação para exibir corretamente no modal
+            var valorDoacaoFormatado = 'R$ ' + (valorDoacao);
+
+            // Atualizar o conteúdo do modal com os detalhes da doação
+            document.getElementById('ongUserDepositModal').innerText = ongUser;
+            document.getElementById('valorDoacaoDepositModal').innerText = valorDoacaoFormatado;
+
+            // Mostrar o modal de depósito
+            $('#depositoModal').modal('show');
+        }
+
+        function performDoacao(ongNome, ongUser, valorDoacao, formaPagamento) {
+            // Implement the logic to handle the donation for other payment methods
+            // You can use AJAX to send the donation information to the server, for example
+            console.log('Performing donation for:', ongNome);
+            console.log('Amount:', valorDoacao);
+            console.log('Payment method:', formaPagamento);
+            // Add your logic here to handle the donation
+        }
+
+        function confirmarDeposito() {
+            // Retrieve deposit information from input fields
+            var valorDoacao = document.getElementById('valorDoacaoDepositModal').innerText;
+            var nomeTitular = document.getElementById('nomeTitular').value;
+            var conta = document.getElementById('conta').value;
+            var agencia = document.getElementById('agencia').value;
+            var banco = document.getElementById('banco').value;
+            var tipoConta = document.getElementById('tipoConta').value;
+            var pix = document.getElementById('pix').value;
+            var obs = document.getElementById('obs').value;
+
+            // You can use this information for further processing or send it to the server
+            console.log('Nome do Titular:', nomeTitular);
+            console.log('Número da Conta:', conta);
+            console.log('Número da Agência:', agencia);
+            console.log('Banco:', banco);
+            console.log('Tipo de Conta:', tipoConta);
+            console.log('Chave PIX:', pix);
+            console.log('Observações:', obs);
+
+            // Close the deposit modal
+            $('#depositoModal').modal('hide');
+
+            // Exibir o modal de agradecimento
+            $('#agradecimentoModal').modal('show');
+
+            // Preencher o valor da doação no modal de agradecimento
+            document.getElementById('valorAgradecimentoModal').innerText = valorDoacao;
+        }
+
+        function obterDadosBancariosOng(ongUser) {
+            console.log(ongUser)
+        // Fazer uma solicitação AJAX para a sua view Django
+        fetch(`/dadosBancarios/${ongUser}/`)
+            .then(response => response.json())
+            .then(data => {
+                // Verificar se ocorreu um erro
+                if ('error' in data) {
+                    console.error(data.error);
+                    // Adicione aqui a lógica para lidar com o erro, se necessário
+                } else {
+                    console.log(data);
+                    document.getElementById('nomeTitular').innerText = data.nome_titular;
+                    document.getElementById('conta').innerText = data.conta;
+                    document.getElementById('agencia').innerText = data.agencia;
+                    document.getElementById('banco').innerText = data.banco;
+                    document.getElementById('tipoConta').innerText = data.tipoConta;
+                    document.getElementById('pix').innerText = data.pix;
+                    // Dados bem-sucedidos, chame a função para exibir o modal de depósito
+                }
+            })
+            .catch(error => {
+                console.error('Erro na solicitação AJAX:', error);
+                // Adicione aqui a lógica para lidar com erros na solicitação, se necessário
+            });
+        }
+
+        function shareOnFacebook() {
+            // Utilizando a variável sharedOngName
+            var url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL) + "&quote=" + encodeURIComponent("Acabei de fazer uma doação para " + sharedOngName + "! Confira e considere doar você também, pelo https://donare.azurewebsites.net/");
+            window.open(url, '_blank');
+        }
+
+        function shareOnX() {
+            // Utilizando a variável sharedOngName
+            var text = "Acabei de fazer uma doação para " + sharedOngName + ", pelo https://donare.azurewebsites.net/";
+            var url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+            window.open(url, '_blank');
+        }
+
+        function shareOnWhatsApp() {
+            // Utilizando a variável sharedOngName
+            var text = "Acabei de fazer uma doação para " + sharedOngName + "! Confira e considere doar você também, pelo https://donare.azurewebsites.net/";
+            var url = "https://wa.me/?text=" + encodeURIComponent(text);
+            window.open(url, '_blank');
+        }
 
     </script>
 </body>

@@ -27,6 +27,28 @@ def home_doador(request, username):
     dadosBancarios = DadosBancariosOng.objects.all()
     return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses, 'dadosBancarios': dadosBancarios})
 
+def getDadosBancarios(request, ongUser):
+
+    try:
+        dadosBancarios = DadosBancariosOng.objects.get(ong_user=ongUser)
+
+        response_data = {
+            "ong_user": dadosBancarios.ong_user,
+            "nome_titular": dadosBancarios.nome_titular,
+            "conta": dadosBancarios.conta,
+            "agencia": dadosBancarios.agencia,
+            "banco": dadosBancarios.banco,
+            "tipoConta": dadosBancarios.tipoConta,
+            "pix": dadosBancarios.pix,
+            "obs": dadosBancarios.obs
+        }
+
+        return JsonResponse(response_data)
+    
+    except DadosBancariosOng.DoesNotExist:
+        # Trate o caso em que não há dados bancários para o usuário da ONG
+        return JsonResponse({'error': 'Dados bancários não encontrados'}, status=404)
+
 def edit_doador(request, username):
     doador = Cadastro.objects.get(username=username)    
     return render(request, 'paginas/home_doador_edit.html', {'doador': doador})
