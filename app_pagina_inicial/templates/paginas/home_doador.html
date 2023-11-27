@@ -127,7 +127,7 @@
                             <h3>{{ ong.nome }}</h3>
                             <p>{{ ong.descricao }}</p>
                             <small>Categoria: {{ ong.categoria }}</small><br>
-                            <button class="btn btn-primary" onclick="openDonationPopup(ong.nome)">Doar</button>
+                            <button class="btn btn-primary" onclick="openDonationPopup('{{ ong.nome|escapejs }}', '{{ ong.username }}')">Doar</button>
                         </div>
                     {% empty %}
                         <p>Nenhuma ONG encontrada.</p>
@@ -141,7 +141,7 @@
                             <h3>{{ ong.nome }}</h3>
                             <p>{{ ong.descricao }}</p>
                             <small>Categoria: {{ ong.categoria }}</small><br>
-                            <button class="btn btn-primary" onclick="openDonationPopup(ong.nome)">Doar</button>
+                            <button class="btn btn-primary" onclick="openDonationPopup('{{ ong.nome|escapejs }}', '{{ ong.username }}')">Doar</button>
                         </div>
                     {% empty %}
                         <p>Nenhuma ONG encontrada.</p>
@@ -149,6 +149,45 @@
                 </div>
                 <!-- Espaço em branco por enquanto -->
             </div>
+            <!-- Modal de doação -->
+            <div class="modal fade" id="doacaoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Doação para a ONG</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Conteúdo do modal, exibindo o nome da ONG -->
+                            <p>Você está prestes a doar para a ONG: <span id="ongNomeModal"></span></p>
+                            <input type="hidden" id="ongUser" value="">
+                            <!-- Adicionando campo de input para o valor desejado -->
+                            <div class="form-group">
+                                <label for="valorDoacao">Valor da Doação:</label>
+                                <input type="text" class="form-control" id="valorDoacao" placeholder="R$ 0,00">
+                            </div>
+                            
+                            <!-- Adicionando campo de seleção para a forma de pagamento -->
+                            <div class="form-group">
+                                <label for="formaPagamento">Forma de Pagamento:</label>
+                                <select class="form-control" id="formaPagamento">
+                                    <option value="pix">PIX</option>
+                                    <option value="credito">Crédito</option>
+                                    <option value="debito">Débito</option>
+                                    <option value="deposito">Depósito Bancário</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" onclick="confirmarDoacao()">Confirmar Doação</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 
@@ -161,6 +200,43 @@
         document.getElementById('editProfile').addEventListener('click', function() {
             window.location.href = '{% url "editar_infos_doador" doador.username %}';
         });
+
+        function openDonationPopup(ongNome, ongUser) {
+            console.log('Abrindo popup para:', ongNome);
+            document.getElementById('ongNomeModal').innerText = ongNome;
+            document.getElementById('ongUser').value = ongUser;
+
+
+            // Exibir o modal padrão
+            $('#doacaoModal').modal('show');
+            // Limpar o valor do input quando o modal é aberto
+            document.getElementById('valorDoacao').value = 'R$ 0,00';
+        }
+
+        function formatarValorInput() {
+            var inputValor = document.getElementById('valorDoacao');
+            var valorDigitado = inputValor.value;
+
+            // Remover todos os caracteres não numéricos
+            var valorNumerico = parseFloat(valorDigitado.replace(/[^\d]/g, '')) / 100 || 0;
+
+            // Formatar o valor com duas casas decimais e adicionar "R$ "
+            inputValor.value = 'R$ ' + valorNumerico.toFixed(2);
+        }
+
+        // Adicionar um ouvinte de eventos para o evento 'input' no input de valor
+        document.getElementById('valorDoacao').addEventListener('input', formatarValorInput);
+
+        function confirmarDoacao() {
+            var ongNome = document.getElementById('ongNomeModal').innerText;
+            var ongUser = document.getElementById('ongUser').value;
+            var formaPagamento = document.getElementById('formaPagamento').value;
+            var valorDoacao = parseFloat(document.getElementById('valorDoacao').value.replace(/[^\d.]/g, '')) / 100 || 0;
+
+            $('#doacaoModal').modal('hide');
+        }
+
+
     </script>
 </body>
 </html>

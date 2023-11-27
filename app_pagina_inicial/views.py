@@ -8,6 +8,8 @@ from django.urls import reverse
 from .forms import PublicacaoForm
 from .models import Publicacao
 from django.db.models import Q
+from django.http import JsonResponse
+
 
 
 def home_ong(request, username):
@@ -20,10 +22,10 @@ def home_doador(request, username):
     ongs = CadastroOng.objects.all()
     interesses_usuario = doador.interesses.split(',')
     ongs_interesses = CadastroOng.objects.filter(
-    Q(categoria__in=interesses_usuario)
-)
-
-    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses})
+        Q(categoria__in=interesses_usuario)
+    )
+    dadosBancarios = DadosBancariosOng.objects.all()
+    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses, 'dadosBancarios': dadosBancarios})
 
 def edit_doador(request, username):
     doador = Cadastro.objects.get(username=username)    
