@@ -8,6 +8,8 @@ from django.urls import reverse
 from .forms import PublicacaoForm
 from .models import Publicacao
 from django.db.models import Q
+from django.http import JsonResponse
+
 
 
 def home_ong(request, username):
@@ -20,10 +22,32 @@ def home_doador(request, username):
     ongs = CadastroOng.objects.all()
     interesses_usuario = doador.interesses.split(',')
     ongs_interesses = CadastroOng.objects.filter(
-    Q(categoria__in=interesses_usuario)
-)
+        Q(categoria__in=interesses_usuario)
+    )
+    dadosBancarios = DadosBancariosOng.objects.all()
+    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses, 'dadosBancarios': dadosBancarios})
 
-    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses})
+def getDadosBancarios(request, ongUser):
+
+    try:
+        dadosBancarios = DadosBancariosOng.objects.get(ong_user=ongUser)
+
+        response_data = {
+            "ong_user": dadosBancarios.ong_user,
+            "nome_titular": dadosBancarios.nome_titular,
+            "conta": dadosBancarios.conta,
+            "agencia": dadosBancarios.agencia,
+            "banco": dadosBancarios.banco,
+            "tipoConta": dadosBancarios.tipoConta,
+            "pix": dadosBancarios.pix,
+            "obs": dadosBancarios.obs
+        }
+
+        return JsonResponse(response_data)
+    
+    except DadosBancariosOng.DoesNotExist:
+        # Trate o caso em que não há dados bancários para o usuário da ONG
+        return JsonResponse({'error': 'Dados bancários não encontrados'}, status=404)
 
 def edit_doador(request, username):
     doador = Cadastro.objects.get(username=username)    

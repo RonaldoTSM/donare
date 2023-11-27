@@ -40,4 +40,5 @@ urlpatterns = [
     path('ong/<str:username>/edit/banco', home_views.edit_banco, name="editar_infos_banco"),
     path('ong/<str:username>/atualizar/banco', home_views.atualizar_infos_banco, name="atualizar_infos_banco"),  
     path('ong/<str:username>/adicionar_publicacao/', home_views.adicionar_publicacao, name='adicionar_publicacao'),
+    path('dadosBancarios/<str:ongUser>/', home_views.getDadosBancarios, name="get_dados_bancarios"),
 ]
