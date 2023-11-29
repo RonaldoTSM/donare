@@ -170,6 +170,22 @@
                         <p>Nenhuma ONG encontrada.</p>
                     {% endfor %}
                 </div>
+
+                <h2>Seu histórico de doações</h2>
+                <div id="feedDoacoes">
+                    {% for doacao in doacoes %}
+                        <div class="publicacao">
+                            <h4>Doação para:{{ doacao.ong.nome }}</h4>
+                            <p>No valor de R$ {{ doacao.valor }}</p>
+                            <p>Forma de pagamento: {{ doacao.forma_pagamento }}</p>
+                            <small>Doação feita por: {{ doacao.autor.Nome }}</small><br>
+                            <small>Doado em: {{ doacao.data_publicacao }}</small>
+                        </div>
+                    {% empty %}
+                        <p>Nenhuma doação encontrada.</p>
+                    {% endfor %}
+                </div>
+
             </div>
             <!-- Modal de doação -->
             <div class="modal fade" id="doacaoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -224,7 +240,7 @@
                         <div class="modal-body">
                             <!-- Display the ONG user and donation details -->
                             <p>ONG: <span id="ongUserDepositModal"></span></p>
-                            <p>Valor da Doação: <span id="valorDoacaoDepositModal" aria-placeholder="R$"></span></p>
+                            <p>Valor da Doação: R$ <span id="valorDoacaoDepositModal"></span></p>
             
                             <!-- Display fields for deposit information -->
                             <div class="form-group">
@@ -264,7 +280,6 @@
                 </div>
             </div>
 
-           <!-- Modal de Agradecimento -->
             <!-- Modal de Agradecimento -->
             <div class="modal fade" id="agradecimentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -349,12 +364,10 @@
             console.log('Abrindo modal de depósito para:', ongNome);
             console.log(valorDoacao)
             obterDadosBancariosOng(ongUser)
-            // Formatar o valor da doação para exibir corretamente no modal
-            var valorDoacaoFormatado = 'R$ ' + (valorDoacao);
 
             // Atualizar o conteúdo do modal com os detalhes da doação
             document.getElementById('ongUserDepositModal').innerText = ongUser;
-            document.getElementById('valorDoacaoDepositModal').innerText = valorDoacaoFormatado;
+            document.getElementById('valorDoacaoDepositModal').innerText = valorDoacao;
 
             // Mostrar o modal de depósito
             $('#depositoModal').modal('show');
@@ -404,13 +417,20 @@
         function confirmarDeposito() {
             // Retrieve deposit information from input fields
             var valorDoacao = document.getElementById('valorDoacaoDepositModal').innerText;
-            var nomeTitular = document.getElementById('nomeTitular').value;
-            var conta = document.getElementById('conta').value;
-            var agencia = document.getElementById('agencia').value;
-            var banco = document.getElementById('banco').value;
-            var tipoConta = document.getElementById('tipoConta').value;
-            var pix = document.getElementById('pix').value;
-            var obs = document.getElementById('obs').value;
+            var nomeTitular = document.getElementById('nomeTitular').innerText;
+            var conta = document.getElementById('conta').innerText;
+            var agencia = document.getElementById('agencia').innerText;
+            var banco = document.getElementById('banco').innerText;
+            var tipoConta = document.getElementById('tipoConta').innerText;
+            var pix = document.getElementById('pix').innerText;
+            var obs = document.getElementById('obs').innerText;
+
+            var ongNome = document.getElementById('ongNomeModal').innerText;
+            var ongUser = document.getElementById('ongUser').value;
+            var formaPagamento = 'deposito';  // Defina a forma de pagamento como 'deposito' para depósitos
+
+            // Chamar a função performDoacao
+            performDoacao(ongNome, ongUser, valorDoacao, formaPagamento, '{{doador.username}}');
 
             // You can use this information for further processing or send it to the server
             console.log('Nome do Titular:', nomeTitular);
@@ -420,6 +440,8 @@
             console.log('Tipo de Conta:', tipoConta);
             console.log('Chave PIX:', pix);
             console.log('Observações:', obs);
+            console.log('NOME DA ONG: ', ongNome)
+            console.log('ONG USER: ', ongUser)
 
             // Close the deposit modal
             $('#depositoModal').modal('hide');

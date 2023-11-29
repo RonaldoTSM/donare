@@ -124,6 +124,19 @@
 
             <!-- Coluna direita reservada para futuras funcionalidades -->
             <div class="right-column">
+                <h2>Seu histórico de doações recebidas</h2>
+                <div id="feedDoacoes">
+                    {% for doacao in doacoes %}
+                        <div class="publicacao">
+                            <h4>Doação feita por:{{ doacao.autor.Nome }}</h4>
+                            <p>No valor de: R$ {{ doacao.valor }}</p>
+                            <p>Forma de pagamento: {{ doacao.forma_pagamento }}</p>
+                            <small>Doado em: {{ doacao.data_publicacao }}</small>
+                        </div>
+                    {% empty %}
+                        <p>Nenhuma doação encontrada.</p>
+                    {% endfor %}
+                </div>
                 <!-- Espaço em branco por enquanto -->
             </div>
         </div>

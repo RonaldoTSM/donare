@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from app_criar_perfil_ong.models import CadastroOng
 from app_criar_perfil_doador.models import Cadastro
 from app_criar_perfil_ong.models import DadosBancariosOng
+from .models import Doacoes
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -14,13 +15,20 @@ from django.http import JsonResponse
 
 def home_ong(request, username):
     ong = get_object_or_404(CadastroOng, username=username)
-    return render(request, 'paginas/home_ong.html', {'ong': ong})
+    doacoes = Doacoes.objects.filter(
+        Q(ong=ong)
+    ).order_by('-data_publicacao')
+    return render(request, 'paginas/home_ong.html', {'ong': ong, 'doacoes': doacoes})
 
 def home_doador(request, username):
     doador = get_object_or_404(Cadastro, username=username)
     publicacoes = Publicacao.objects.all().order_by('-data_publicacao') 
     ongs = CadastroOng.objects.all()
     interesses_usuario = doador.interesses.split(',')
+    doacoes = Doacoes.objects.filter(
+        Q(autor=doador)
+    ).order_by('-data_publicacao')
+    
     ongs_interesses = CadastroOng.objects.filter(
         Q(categoria__in=interesses_usuario)
     )
@@ -29,7 +37,7 @@ def home_doador(request, username):
     doador.nascimento = formatar_data_nascimento(doador.nascimento)
     doador.telefone = formatar_telefone(doador.telefone)
 
-    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses, 'dadosBancarios': dadosBancarios})
+    return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses, 'dadosBancarios': dadosBancarios, 'doacoes': doacoes})
 
 def getDadosBancarios(request, ongUser):
 
