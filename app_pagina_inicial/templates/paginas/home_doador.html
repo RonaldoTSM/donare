@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ doador.Nome }}</title>
     <!-- Inclusão do CSS do Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -14,9 +16,9 @@
         }
         .publicacao {
             background-color: #fff;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }       
         header {
@@ -57,6 +59,30 @@
                 width: 50%;
                 padding: 20px;
             }
+        }
+    
+        /* Ajustes específicos para o estilo do Twitter no feed de publicações */
+        .publicacao {
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: white;
+        }
+    
+        .publicacao h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+    
+        .publicacao p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+    
+        .publicacao small {
+            font-size: 1em;
+            color: #888;
         }
     </style>
 </head>
@@ -104,7 +130,7 @@
                 <div id="feedPublicacoes">
                     {% for publicacao in publicacoes %}
                         <div class="publicacao">
-                            <h3>{{ publicacao.titulo }}</h3>
+                            <h4>{{ publicacao.titulo }}</h4>
                             <p>{{ publicacao.descricao }}</p>
                             <small>Publicado por: {{ publicacao.autor.username }}</small><br>
                             <small>Publicado em: {{ publicacao.data_publicacao }}</small>
@@ -113,13 +139,10 @@
                         <p>Nenhuma publicação encontrada.</p>
                     {% endfor %}
                 </div>
-
-                <!-- ONGs do seu interesse -->
             </div>
 
             <!-- Coluna da direita para manter o layout alinhado-->
             <div class="col-md-3">
-
                 <h2>ONGs do seu interesse</h2>
                 <div id="feedOngsInteresse">
                     {% for ong in ongs_interesses %}
@@ -141,13 +164,12 @@
                             <h3>{{ ong.nome }}</h3>
                             <p>{{ ong.descricao }}</p>
                             <small>Categoria: {{ ong.categoria }}</small><br>
-                            <button class="btn btn-primary" onclick="openDonationPopup('{{ ong.nome|escapejs }}', '{{ ong.username }}')">Doar</button>
+                            <button class="btn btn-primary" onclick="openDonationPopup('{{ ong.nome|escapejs }}', '{{ ong.username }}', '{{doador.username}}')">Doar</button>
                         </div>
                     {% empty %}
                         <p>Nenhuma ONG encontrada.</p>
                     {% endfor %}
                 </div>
-                <!-- Espaço em branco por enquanto -->
             </div>
             <!-- Modal de doação -->
             <div class="modal fade" id="doacaoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -165,12 +187,14 @@
                             <input type="hidden" id="ongUser" value="">
                             <!-- Adicionando campo de input para o valor desejado -->
                             <div class="form-group">
+                                {% csrf_token %}
                                 <label for="valorDoacao">Valor da Doação:</label>
                                 <input type="text" class="form-control" id="valorDoacao" placeholder="R$ 0,00">
                             </div>
                             
                             <!-- Adicionando campo de seleção para a forma de pagamento -->
                             <div class="form-group">
+                                {% csrf_token %}
                                 <label for="formaPagamento">Forma de Pagamento:</label>
                                 <select class="form-control" id="formaPagamento">
                                     <option value="credito">Crédito</option>
@@ -181,7 +205,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" onclick="confirmarDoacao()">Confirmar Doação</button>
+                            <button type="button" class="btn btn-primary" onclick="confirmarDoacao('{{doador.username}}')">Confirmar Doação</button>
                         </div>
                     </div>
                 </div>
@@ -297,7 +321,7 @@
             document.getElementById('valorDoacao').value = '';
         }
 
-        function confirmarDoacao() {
+        function confirmarDoacao(username) {
             var ongNome = document.getElementById('ongNomeModal').innerText;
             var ongUser = document.getElementById('ongUser').value;
             var formaPagamento = document.getElementById('formaPagamento').value;
@@ -311,7 +335,8 @@
                 openDepositoModal(ongNome, ongUser, valorDoacao);
             } else {
                 // Handle other payment methods or perform the donation directly
-                performDoacao(ongNome, ongUser, valorDoacao, formaPagamento);
+                console.log('Performing Donation')
+                performDoacao(ongNome, ongUser, valorDoacao, formaPagamento, username);
                 // Exibir o modal de agradecimento
                 $('#agradecimentoModal').modal('show');
 
@@ -335,13 +360,45 @@
             $('#depositoModal').modal('show');
         }
 
-        function performDoacao(ongNome, ongUser, valorDoacao, formaPagamento) {
-            // Implement the logic to handle the donation for other payment methods
-            // You can use AJAX to send the donation information to the server, for example
+        function performDoacao(ongNome, ongUser, valorDoacao, formaPagamento, username) {
             console.log('Performing donation for:', ongNome);
             console.log('Amount:', valorDoacao);
             console.log('Payment method:', formaPagamento);
-            // Add your logic here to handle the donation
+            console.log('JSON being sent:', JSON.stringify({
+                'forma_pagamento': formaPagamento,
+                'valor': valorDoacao,
+            }));
+
+            // Obter o token CSRF do input gerado pelo Django
+            var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+            console.log('CSRF Token:', csrfToken);
+
+            // Make a Fetch call to save_doacao view
+            fetch(`/doador/${username}/realizar_doacao/${ongUser}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    // Atualize o corpo para FormData
+                    body: new URLSearchParams({
+                        'forma_pagamento': formaPagamento,
+                        'valor': valorDoacao,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response:', data);  // Log the entire response for debugging
+                    if (data.success) {
+                        console.log('Donation saved successfully');
+                    } else {
+                        console.error('Error saving donation:', data.errors);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error making donation:', error);
+                });
         }
 
         function confirmarDeposito() {

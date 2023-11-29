@@ -1,5 +1,5 @@
 from django import forms
-from .models import Publicacao
+from .models import Publicacao, Doacoes
 
 class PublicacaoForm(forms.ModelForm):
     class Meta:
@@ -9,3 +9,8 @@ class PublicacaoForm(forms.ModelForm):
             'titulo': forms.TextInput(attrs={'placeholder': 'Digite o título aqui'}),
             'descricao': forms.Textarea(attrs={'placeholder': 'Descreva sua publicação'}),
         }
+
+class DoacaoForm(forms.ModelForm):
+    class Meta:
+        model = Doacoes
+        fields = ['forma_pagamento', 'valor']

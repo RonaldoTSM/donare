@@ -34,6 +34,7 @@ urlpatterns = [
     path('doador/<str:username>/', home_views.home_doador, name='home_doador'),    
     path('doador/<str:username>/edit', home_views.edit_doador, name="editar_infos_doador"),
     path('doador/<str:username>/atualizar', home_views.atualizar_infos_doador, name="atualizar_infos_doador"),
+    path('doador/<str:username>/realizar_doacao/<str:user_ong>/', home_views.save_doacao, name="save_doacao"),
     path('ong/<str:username>/', home_views.home_ong, name='home_ong'),
     path('ong/<str:username>/edit', home_views.edit_ong , name="editar_infos_ong"),
     path('ong/<str:username>/atualizar', home_views.atualizar_infos_ong, name="atualizar_infos_ong"),
