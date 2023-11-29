@@ -5,7 +5,7 @@ from app_criar_perfil_ong.models import DadosBancariosOng
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import PublicacaoForm
+from .forms import PublicacaoForm, DoacaoForm
 from .models import Publicacao
 from django.db.models import Q
 from django.http import JsonResponse
@@ -28,8 +28,6 @@ def home_doador(request, username):
 
     doador.nascimento = formatar_data_nascimento(doador.nascimento)
     doador.telefone = formatar_telefone(doador.telefone)
-
-    print(doador.nascimento)
 
     return render(request, 'paginas/home_doador.html', {'doador': doador, 'publicacoes': publicacoes, 'ongs': ongs, 'ongs_interesses': ongs_interesses, 'dadosBancarios': dadosBancarios})
 
@@ -58,6 +56,35 @@ def getDadosBancarios(request, ongUser):
 def edit_doador(request, username):
     doador = Cadastro.objects.get(username=username)    
     return render(request, 'paginas/home_doador_edit.html', {'doador': doador})
+
+def save_doacao(request, username, user_ong):
+    ong = get_object_or_404(CadastroOng, username=user_ong)
+    doador = get_object_or_404(Cadastro, username=username)
+
+    if request.method == 'POST':
+        # Altere para usar request.POST diretamente
+        forma_pagamento = request.POST.get('forma_pagamento')
+        valor = request.POST.get('valor')
+
+        # Crie um dicionário com os dados do formulário
+        form_data = {
+            'forma_pagamento': forma_pagamento,
+            'valor': valor,
+        }
+
+        form = DoacaoForm(form_data)  # Use your donation form here
+        if form.is_valid():
+            # Create and save the donation
+            doacao = form.save(commit=False)
+            doacao.ong = ong
+            doacao.autor = doador
+            doacao.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        # Handle GET requests or other HTTP methods if needed
+        return JsonResponse({'success': False, 'errors': 'Invalid request method'})
 
 def adicionar_publicacao(request, username):
     usuario = get_object_or_404(CadastroOng, username=username)
