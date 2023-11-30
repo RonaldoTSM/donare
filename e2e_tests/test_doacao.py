@@ -6,9 +6,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 import time
 
-class TestDoacao(unittest.TestCase):
+class CriacaoPublicacao(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Chrome()
+
 
     def test_criacao_publicacao(self):
         self.browser.get('https://donare.azurewebsites.net/doador/aadf/')
@@ -35,21 +36,23 @@ class TestDoacao(unittest.TestCase):
         select.select_by_visible_text("Depósito Bancário ou PIX")
         time.sleep(2)
 
-        confirmar_doacao_button = WebDriverWait(self.browser, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'btn btn-primary') and contains(@onclick, \"confirmarDoacao('aadf')\")]"))
-        )
+        confirmar_doacao_button = self.browser.find_element(By.XPATH, "//button[contains(@class, 'btn btn-primary') and contains(@onclick, \"confirmarDoacao('aadf')\")]")
         confirmar_doacao_button.click()
         time.sleep(2)
 
-        confirm_button = WebDriverWait(self.browser, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[@class='btn btn-primary' and @onclick='confirmarDeposito()']"))
-        )
-        time.sleep(5)  # Aguarde por 5 segundos antes de clicar no botão
+        confirm_button = self.browser.find_element(By.XPATH, "//button[@class='btn btn-primary' and @onclick='confirmarDeposito()']")
+        time.sleep(1)
         confirm_button.click()
         time.sleep(2)
 
     def tearDown(self):
         self.browser.quit()
+
+    def tearDown(self):
+        self.browser.quit()
+
+if __name__ == "__main__":
+    unittest.main()
 
 if __name__ == "__main__":
     unittest.main()
