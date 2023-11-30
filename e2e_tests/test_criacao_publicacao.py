@@ -42,5 +42,5 @@ class criacaoPublicacao(unittest.TestCase):
 def tearDown(self):
     self.browser.quit()
 
-    if _name_ == "_main_":
-        unittest.main()
+if __name__ == "_main_":
+    unittest.main()

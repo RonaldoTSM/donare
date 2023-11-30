@@ -52,7 +52,7 @@ class criacaoPerfilOng(unittest.TestCase):
         select = Select(category_input)  
         select.select_by_visible_text(categoria)
         terms_checkbox = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.ID, 'terms')))
-        
+    
                 
         
         for n in nome:
@@ -148,9 +148,6 @@ class criacaoPerfilOng(unittest.TestCase):
         
         
         
-        
-        
-        
         for n in nome:
             nome_titular_input.send_keys(n)
             time.sleep(0.1)
@@ -213,16 +210,14 @@ class criacaoPerfilOng(unittest.TestCase):
 
         self.browser.get('https://donare.azurewebsites.net/ong/Samaritanos/')
         time.sleep(4)
-        
-        self.browser.switch_to.alert.accept()
-        time.sleep(2)
+
 
         
 def tearDown(self):
     self.browser.quit()
 
-    if _name_ == "_main_":
-        unittest.main()
+if __name__ == "_main_":
+    unittest.main()
         
                 
 

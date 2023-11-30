@@ -42,12 +42,11 @@ class testLogin(unittest.TestCase):
         logar_button = self.browser.find_element(By.CLASS_NAME, 'login-button')
         logar_button.click()
         time.sleep(2)
-        self.assertEqual()
         
 def tearDown(self):
     self.browser.quit()
 
-    if _name_ == "_main_":
-        unittest.main()
+if __name__ == "_main_":
+    unittest.main()
         
         

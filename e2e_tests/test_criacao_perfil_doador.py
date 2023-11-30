@@ -150,8 +150,7 @@ class CriacaoPerfilDoador(unittest.TestCase):
 
         # Aguarde a conclusão da ação (pode adicionar verificações adicionais aqui)
         time.sleep(2)
-         # Aceitar o pop-up de alerta
-        self.browser.switch_to.alert.accept()
+        
 
     
     def tearDown(self):
