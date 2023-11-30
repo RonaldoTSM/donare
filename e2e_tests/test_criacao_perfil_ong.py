@@ -57,20 +57,20 @@ class criacaoPerfilOng(unittest.TestCase):
         
         for n in nome:
             user_name_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(nome, 'Samaritanos')
         time.sleep(2)
         
         
         for n in ong:
             ong_name_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(ong, 'Samaritanos')
         time.sleep(2)
         
         for n in cnpj:
             cnpj_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(cnpj, '12288745000107')
         time.sleep(2)
         
@@ -82,37 +82,37 @@ class criacaoPerfilOng(unittest.TestCase):
         
         for n in cep:
             cep_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(cep, '52071640')
         time.sleep(2)
 
         for n in numero:
             number_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(numero, '50')
         time.sleep(2)
 
         for n in complemento:
             complement_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(complemento, 'apartamento 1201')
         time.sleep(2)
 
         for n in telefone:
             phone_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(telefone, '81991764163')
         time.sleep(2)
 
         for n in email:
             email_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(email, 'samaratinos@email.com')
         time.sleep(2)
 
         for n in senha:
             password_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(senha, '1234')
         time.sleep(2)
         
@@ -153,56 +153,56 @@ class criacaoPerfilOng(unittest.TestCase):
         
         for n in nome:
             nome_titular_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(nome, 'Samaritanos')
         time.sleep(2)
     
         for n in conta_bancaria:
             bank_account_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(conta_bancaria, '117882969')
         time.sleep(2)
 
         for n in agencia:
             agency_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(agencia, '111')
         time.sleep(2)
 
         for n in banco:
             bank_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(banco, 'NUBANK')
         time.sleep(2)
 
         for n in tipo_conta:
             type_account_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(tipo_conta, 'Corrente')
         time.sleep(2)
 
         for n in cidade_agencia:
             agency_city.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(cidade_agencia, 'Recife')
         time.sleep(2)
 
         for n in estado_agencia:
             agency_state_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(estado_agencia, 'PE')
         time.sleep(2)
 
         for n in chave_pix:
             pix_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(chave_pix, '12842003454')
         time.sleep(2)
         
         
         for n in observacoes:
             observation_input.send_keys(n)
-            time.sleep(0.2)
+            time.sleep(0.1)
         self.assertEqual(observacoes, 'conta bancaria da ONG samaritanos')
         time.sleep(2)
         
@@ -215,9 +215,14 @@ class criacaoPerfilOng(unittest.TestCase):
         time.sleep(4)
         
         self.browser.switch_to.alert.accept()
+        time.sleep(2)
 
         
+def tearDown(self):
+    self.browser.quit()
 
+    if _name_ == "_main_":
+        unittest.main()
         
                 
 
