@@ -42,7 +42,7 @@ O Donare é uma plataforma de rede social que visa facilitar a doação e promov
 <a href="https://drive.google.com/file/d/1Bxoqn7JsI9RktBbf9Bg9_Iq5tKBxGztW/view?usp=drive_link">Issues/Bug #4</a><br> 
 <a href="https://drive.google.com/file/d/1ZrodPdB-TbBEpbm3MwIi_kSqrx0vyNXt/view?usp=drive_link">Issues/Bug #5</a><br> 
 <a href="https://drive.google.com/file/d/11mREnKmVVM9pYGQufpZsD-YzCxgxpPnU/view?usp=drive_link">Screencast - Histórias Implementadas</a><br> 
-<a href="">Screencast - CI/CD</a><br> add
+<a href="">Screencast - CI/CD</a><br> 
 <a href="">Screencast - Testes</a><br> add
 <a href="https://docs.google.com/document/d/1T2ajEMMPxcIWzm1IrN_9gjal6-EGD8DtKTca4f3NWyg/edit?usp=drive_link">Programação em Par experimentada e usado</a><br>
 [Link da aplicação web](https://donare.azurewebsites.net)
