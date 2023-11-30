@@ -22,8 +22,7 @@ class testLogin(unittest.TestCase):
         
         login = "ContaGotas"
         password = "1234"
-        
-        
+            
         nome_usuario_input = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.ID, "username")))
         senha_input = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.ID, "senha")))
         
@@ -44,5 +43,11 @@ class testLogin(unittest.TestCase):
         logar_button.click()
         time.sleep(2)
         self.assertEqual()
+        
+def tearDown(self):
+    self.browser.quit()
+
+    if _name_ == "_main_":
+        unittest.main()
         
         
