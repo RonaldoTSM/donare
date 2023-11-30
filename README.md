@@ -22,12 +22,28 @@ O Donare é uma plataforma de rede social que visa facilitar a doação e promov
 
 ## Status Report 1
 
-<a href="https://docs.google.com/document/d/1x7OmkyC_WPlmr7NPRakeKYE1GKfYFS48/edit?usp=drive_link&ouid=103356964099486427591&rtpof=true&sd=true">5 Histórias com Sketches e Storyboards no Figma</a><br> 
+<a href="https://docs.google.com/document/d/1NpaWCWbsPLDK2-2CmRm2tUZA8ldIIwtStZfLzUsjqgU/edit?usp=drive_link">5 Histórias com Sketches e Storyboards no Figma</a><br> 
 <a href="https://drive.google.com/file/d/1q7ahuI8b2muoUdi_qvc7-D7ib6whUy0Z/view?usp=drive_link">Screencast - Protótipo LO-FI FIGMA</a><br>
 <a href="https://drive.google.com/file/d/19EpJ_DGNvMcBiIgov2oRznSuTjIXMHQK/view?usp=drive_link">Diagrama de Atividades</a><br>
-<a href="https://drive.google.com/file/d/1DiOnZISYzvPIv-kx4IGBVdf6kKskviPv/view?usp=drive_link">Issues/Bug #1</a><br>
+<a href="">Issues/Bug #1</a><br>
 <a href="https://drive.google.com/file/d/1YMoTE44lIEs3qi7jmiEtf2TNbBlWdUIh/view?usp=drive_link">Issues/Bug #2</a><br>
 <a href="https://drive.google.com/file/d/13CZEKj7HPjiD7SJkLDNH-aV4ZimD9oKh/view?usp=drive_link">Screencast - Histórias Implementadas</a><br> 
+<a href="https://docs.google.com/document/d/1T2ajEMMPxcIWzm1IrN_9gjal6-EGD8DtKTca4f3NWyg/edit?usp=drive_link">Programação em Par experimentada e usado</a><br>
+[Link da aplicação web](https://donare.azurewebsites.net)
+
+
+## Status Report 1
+
+<a href="https://docs.google.com/document/d/1NpaWCWbsPLDK2-2CmRm2tUZA8ldIIwtStZfLzUsjqgU/edit?usp=drive_link">10 Histórias</a><br> 
+<a href="https://drive.google.com/drive/folders/1lSKdZndq9v2X9DcfWdoYqcsNi0JhsjJb?usp=drive_link">Diagrama de Atividades</a><br> 
+<a href="https://drive.google.com/file/d/1zmQ93BKEGHw9h0AR2sz-dGcJbIvG_8Rx/view?usp=drive_link">Issues/Bug #1</a><br> 
+<a href="https://drive.google.com/file/d/1KjjeFbK4k3UjQt06yLzH6JG3bF7Lb3eY/view?usp=drive_link">Issues/Bug #2</a><br> 
+<a href="https://drive.google.com/file/d/1V4IybGVHD7unRwX-w3QK6fVcFi7O1B_6/view?usp=drive_link">Issues/Bug #3</a><br> 
+<a href="https://drive.google.com/file/d/1Bxoqn7JsI9RktBbf9Bg9_Iq5tKBxGztW/view?usp=drive_link">Issues/Bug #4</a><br> 
+<a href="https://drive.google.com/file/d/1ZrodPdB-TbBEpbm3MwIi_kSqrx0vyNXt/view?usp=drive_link">Issues/Bug #5</a><br> 
+<a href="https://drive.google.com/file/d/11mREnKmVVM9pYGQufpZsD-YzCxgxpPnU/view?usp=drive_link">Screencast - Histórias Implementadas</a><br> 
+<a href="">Screencast - CI/CD</a><br> add
+<a href="">Screencast - Testes</a><br> add
 <a href="https://docs.google.com/document/d/1T2ajEMMPxcIWzm1IrN_9gjal6-EGD8DtKTca4f3NWyg/edit?usp=drive_link">Programação em Par experimentada e usado</a><br>
 [Link da aplicação web](https://donare.azurewebsites.net)
 

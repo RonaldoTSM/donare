@@ -44,5 +44,11 @@ class testLogin(unittest.TestCase):
         logar_button.click()
         time.sleep(2)
         
+def tearDown(self):
+    self.browser.quit()
+
+    if _name_ == "_main_":
+        unittest.main()
+        
         
         

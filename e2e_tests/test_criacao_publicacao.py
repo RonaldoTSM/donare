@@ -38,3 +38,9 @@ class criacaoPublicacao(unittest.TestCase):
         publish = self.browser.find_element(By.XPATH, '//button[@class="btn btn-success" and text()="Publicar"]')
         publish.click()    
         time.sleep(4)
+        
+def tearDown(self):
+    self.browser.quit()
+
+    if _name_ == "_main_":
+        unittest.main()
