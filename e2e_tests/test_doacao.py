@@ -10,22 +10,23 @@ class CriacaoPublicacao(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Chrome()
 
+
     def test_criacao_publicacao(self):
         self.browser.get('https://donare.azurewebsites.net/doador/aadf/')
         time.sleep(2)
-        
-        # Corrigindo as aspas dentro da string de XPath
+
         xpath = "//button[contains(@class, 'btn btn-primary') and contains(@onclick, \"openDonationPopup('ONG Conta Gotas', 'ContaGotas')\")]"
-        doar_button = self.browser.find_element(By.XPATH, xpath)
+        doar_button = WebDriverWait(self.browser, 10).until(
+            EC.element_to_be_clickable((By.XPATH, xpath))
+        )
         doar_button.click()
         time.sleep(2)
-        
+
         doacao = self.browser.find_element(By.XPATH, '//input[@id="valorDoacao"]')
         doacao.click()
         time.sleep(2)
 
         valor_digitado = "100,00"
-
         for n in valor_digitado:
             doacao.send_keys(n)
             time.sleep(0.2)
@@ -46,6 +47,12 @@ class CriacaoPublicacao(unittest.TestCase):
 
     def tearDown(self):
         self.browser.quit()
+
+    def tearDown(self):
+        self.browser.quit()
+
+if __name__ == "__main__":
+    unittest.main()
 
 if __name__ == "__main__":
     unittest.main()
