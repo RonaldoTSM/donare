@@ -6,30 +6,26 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 import time
 
-
-class criacaoPublicacao(unittest.TestCase):
+class TestDoacao(unittest.TestCase):
     def setUp(self):
-        
         self.browser = webdriver.Chrome()
-        
+
     def test_criacao_publicacao(self):
-        
         self.browser.get('https://donare.azurewebsites.net/doador/aadf/')
         time.sleep(2)
-        
-        # Corrigindo as aspas dentro da string de XPath
+
         xpath = "//button[contains(@class, 'btn btn-primary') and contains(@onclick, \"openDonationPopup('ONG Conta Gotas', 'ContaGotas')\")]"
-        doar_button = self.browser.find_element(By.XPATH, xpath)
+        doar_button = WebDriverWait(self.browser, 10).until(
+            EC.element_to_be_clickable((By.XPATH, xpath))
+        )
         doar_button.click()
         time.sleep(2)
-        
+
         doacao = self.browser.find_element(By.XPATH, '//input[@id="valorDoacao"]')
         doacao.click()
         time.sleep(2)
 
-
         valor_digitado = "100,00"
-
         for n in valor_digitado:
             doacao.send_keys(n)
             time.sleep(0.2)
@@ -38,22 +34,22 @@ class criacaoPublicacao(unittest.TestCase):
         select = Select(forma_pagamento_dropdown)
         select.select_by_visible_text("Depósito Bancário ou PIX")
         time.sleep(2)
-        
-        
-        confirmar_doacao_button = self.browser.find_element(By.XPATH, "//button[contains(@class, 'btn btn-primary') and contains(@onclick, \"confirmarDoacao('aadf')\")]")
+
+        confirmar_doacao_button = WebDriverWait(self.browser, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'btn btn-primary') and contains(@onclick, \"confirmarDoacao('aadf')\")]"))
+        )
         confirmar_doacao_button.click()
         time.sleep(2)
 
-
-        confirm_button = self.browser.find_element(By.XPATH, "//button[@class='btn btn-primary' and @onclick='confirmarDeposito()']")
-        time.sleep(1)
+        confirm_button = WebDriverWait(self.browser, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@class='btn btn-primary' and @onclick='confirmarDeposito()']"))
+        )
+        time.sleep(5)  # Aguarde por 5 segundos antes de clicar no botão
         confirm_button.click()
         time.sleep(2)
 
+    def tearDown(self):
+        self.browser.quit()
 
-        
-def tearDown(self):
-    self.browser.quit()
-
-    if _name_ == "_main_":
-        unittest.main()
+if __name__ == "__main__":
+    unittest.main()
